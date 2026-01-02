@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Estilos para Sonner Toasts */
+[data-sonner-toast] {
+  z-index: 9999 !important;
+}
+
+[data-sonner-toast] button[data-close-button] {
+  z-index: 10000 !important;
+  position: relative !important;
+}
+
+[data-sonner-toast] [data-content] {
+  z-index: 9998 !important;
+}
+
+[data-sonner-toaster] {
+  z-index: 9999 !important;
+}
+
+/* --- Estilos del Calendario FullCalendar --- */
+
+/* Color para "Eventos del IM" (Normales) - Usamos el rojo de tu marca */
+.fc-event-im-evento {
+  background-color: #C04A4A !important; /* El rojo de tus botones */
+  border-color: #A03E3E !important;
+  color: white !important;
+  cursor: pointer;
+}
+
+/* Color para "Mis Eventos" (Inscrito) - Usamos un azul distintivo */
+.fc-event-mi-evento {
+  background-color: #3B82F6 !important; /* Un azul de Tailwind */
+  border-color: #2563EB !important;
+  color: white !important;
+  cursor: pointer;
+}
+
+/* Estilo general del evento */
+.fc-event {
+  padding: 3px 6px !important;
+  font-weight: 500 !important;
+  font-size: 0.8rem !important;
+  border-radius: 4px !important;
+}
+
+/* Ocultar la hora del evento (ya que son eventos de día completo) */
+.fc-event-time {
+  display: none !important;
+}
+
+/* Mejorar cabecera */
+.fc .fc-toolbar-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+}
+.fc .fc-button-primary {
+  background-color: #C04A4A !important;
+  border-color: #C04A4A !important;
+  box-shadow: none !important;
+}
+.fc .fc-button-primary:hover {
+  background-color: #A03E3E !important;
+  border-color: #A03E3E !important;
+}
