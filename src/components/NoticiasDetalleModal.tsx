@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { LoadingSpinner } from "./LoadingComponents"; // Ajusta la ruta si es necesario
-import type { Noticia as NoticiaType } from "../../../BackEnd/src/tipos/tipos"; // Importa el tipo Noticia
+import { LoadingSpinner } from "./LoadingComponents";
+import type { Noticia as NoticiaType } from "../../types/secretariaGrupo";
 
 // ICONO PIN
 import PinIcon from "../components/icons/PinIcon";
