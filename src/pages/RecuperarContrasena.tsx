@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RecuperarContrasena.css';
+import { AUTH_URL } from '../config/api';
 
 const RecuperarContrasena: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ const RecuperarContrasena: React.FC = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/auth/solicitar-recuperacion', {
+      const response = await fetch(`${AUTH_URL}/solicitar-recuperacion`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

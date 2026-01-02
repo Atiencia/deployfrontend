@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { LoadingSpinner } from "./LoadingComponents";
 import type { Noticia as NoticiaType } from "../../types/secretariaGrupo";
+import { API_URL } from '../config/api';
 
 // ICONO PIN
 import PinIcon from "../components/icons/PinIcon";
@@ -23,7 +24,7 @@ const NoticiaDetalleModal: React.FC<Props> = ({ noticiaId, onClose }) => {
       setNoticia(null);
 
       try {
-        const res = await fetch(`http://localhost:5000/api/noticias/${noticiaId}`, { credentials: "include" }); //acafetch
+        const res = await fetch(`${API_URL}/noticias/${noticiaId}`, { credentials: "include" }); //acafetch
         if (!res.ok) {
           const errorData = await res.json().catch(() => ({ error: `Error HTTP ${res.status}` }));
           throw new Error(errorData.error || `Error ${res.status}`);

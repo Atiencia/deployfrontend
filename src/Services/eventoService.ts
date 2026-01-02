@@ -1,9 +1,9 @@
 import axios from "axios";
 import type { CreateEventoRequest, EditarEventoRequest, evento, inscripcionEventoRequest } from '../../types/evento';
 import type { Inscripto } from '../../types/Inscripto';
+import { API_URL as BASE_API_URL } from '../config/api';
 
-
-const API_URL = "http://localhost:5000/api/eventos";
+const API_URL = `${BASE_API_URL}/eventos`;
 
 // 1. Obtener todos los eventos
 export const obtenerEventos = async (): Promise<evento[]> => {
@@ -98,7 +98,7 @@ export const obtenerEventosDisponibles = async (): Promise<evento[]> => {
 
 export const obtenerEventosPorGrupo = async (grupoId: number): Promise<evento[]> => {
   console.log(grupoId)
-  const response = await fetch(`http://localhost:5000/api/evento-grupo/${grupoId}`, {
+  const response = await fetch(`${BASE_API_URL}/evento-grupo/${grupoId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ grupoId }),
@@ -234,7 +234,7 @@ export async function obtenerInscriptos(idEvento: number): Promise<Inscripto[]> 
 
 // 8. Inscribir un usuario a un evento
 export const inscribirUsuario = async (payload: inscripcionEventoRequest) => {
-  const response = await fetch('http://localhost:5000/api/eventos/inscripcion', { //aca fetch
+  const response = await fetch(`${BASE_API_URL}/eventos/inscripcion`, { //aca fetch
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -333,7 +333,7 @@ export const darDeBajaInscripcion = async (eventoId: number) => {
 export const crearPreferenciaPago = async (eventoData: evento & { form_data: any }) => {
   const { form_data, ...evento } = eventoData;
 
-  const response = await fetch('http://localhost:5000/api/mercadopago/crear_preferencia', {
+  const response = await fetch(`${BASE_API_URL}/mercadopago/crear_preferencia`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -357,7 +357,7 @@ export const crearPreferenciaPago = async (eventoData: evento & { form_data: any
 }
 
 export const editarEvento = async ({ eventoId, datosEditados }: { eventoId: string, datosEditados: EditarEventoRequest }) => {
-  const res = await fetch(`http://localhost:5000/api/eventos`, {
+  const res = await fetch(`${BASE_API_URL}/eventos`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id_evento: eventoId, ...datosEditados }),

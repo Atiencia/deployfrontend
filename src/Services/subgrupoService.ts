@@ -1,6 +1,7 @@
 import type { inscripcionEventoRequest } from "../../types/evento";
+import { API_URL as BASE_API_URL } from '../config/api';
 
-const API_URL = 'http://localhost:5000/api/subgrupos';
+const API_URL = `${BASE_API_URL}/subgrupos`;
 
 export const crearSubgrupo = async ({ id_grupo, nombre, descripcion }: { id_grupo: number, nombre: string, descripcion: string }) => {
   const response = await fetch(`${API_URL}`,

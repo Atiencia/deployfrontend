@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaTimesCircle, FaSpinner, FaEnvelope, FaClock } from 'react-icons/fa';
+import { AUTH_URL } from '../config/api';
 
 const VerificarEmail = () => {
   const [searchParams] = useSearchParams();
@@ -30,7 +31,7 @@ const VerificarEmail = () => {
   const verificarToken = async (token: string) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/auth/verificar-email?token=${token}`,
+        `${AUTH_URL}/verificar-email?token=${token}`,
         {
           method: 'GET',
           headers: {
@@ -73,7 +74,7 @@ const VerificarEmail = () => {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/auth/reenviar-verificacion',
+        `${AUTH_URL}/reenviar-verificacion`,
         {
           method: 'POST',
           headers: {

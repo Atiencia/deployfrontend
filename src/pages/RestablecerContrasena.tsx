@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import './RestablecerContrasena.css';
+import { AUTH_URL } from '../config/api';
 
 const RestablecerContrasena: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -55,7 +56,7 @@ const RestablecerContrasena: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/auth/restablecer-contrasena', {
+      const response = await fetch(`${AUTH_URL}/restablecer-contrasena`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

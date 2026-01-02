@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { redirectToLogin } from '../utils/authUtils';
+import { API_BASE_URL } from './api';
 
 // Crear una instancia de axios con configuración base
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: API_BASE_URL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

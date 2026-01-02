@@ -7,6 +7,7 @@ import { LoadingSpinner } from "../components/LoadingComponents";
 import NoticiaDetalleModal from "../components/NoticiasDetalleModal";
 import PinIcon from "../components/icons/PinIcon";
 import { toast } from "react-toastify";
+import { API_URL } from '../config/api';
 
 import { verificarInscripcionUsuario } from "../Services/eventoService";
 import type { evento, grupo } from "../../types/evento";
@@ -107,7 +108,7 @@ export default function UserHome() {
       setLoadingNoticias(true);
       setErrorNoticias(null);
       try {
-        const res = await fetch("http://localhost:5000/api/noticias", { credentials: "include" });
+        const res = await fetch(`${API_URL}/noticias`, { credentials: "include" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setNoticias(Array.isArray(data) ? data : []);

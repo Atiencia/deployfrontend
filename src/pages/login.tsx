@@ -10,6 +10,7 @@ import { useSetAtom } from "jotai";
 import { userRolAtom } from "../store/jotaiStore";
 import { useNavigate } from "react-router-dom";
 import { clearAuthData } from "../utils/authUtils";
+import { AUTH_URL } from '../config/api';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -79,7 +80,7 @@ export default function Login() {
     setEnviandoVerificacion(true);
 
     try {
-      const response = await fetch("http://localhost:5000/auth/reenviar-verificacion", {
+      const response = await fetch(`${AUTH_URL}/reenviar-verificacion`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: username }),

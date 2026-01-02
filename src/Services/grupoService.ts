@@ -1,8 +1,7 @@
 import axios from "axios";
 import type { grupo } from "../../types/evento";
 import type { CrearGrupoRequest } from "../../types/secretariaGrupo";
-
-const API_URL = "http://localhost:5000/api";
+import { API_URL } from '../config/api';
 
 export const obtenerGrupos = async () => {
   const response = await axios.get<grupo[]>(`${API_URL}/grupos`, {
@@ -34,7 +33,7 @@ export const obtenerGrupo = async (id: string) => {
 }
 
 export const crearGrupo = async (data: FormData) => {
-  const response = await fetch("http://localhost:5000/api/grupos", { //acafetch
+  const response = await fetch(`${API_URL}/grupos`, { //acafetch
     method: "POST",
     /*headers: {
       "Content-Type": "application/json",
@@ -50,7 +49,7 @@ export const crearGrupo = async (data: FormData) => {
 }
 
 export const editarGrupo = async ({ grupoId, datosEditados }: { grupoId: string, datosEditados: CrearGrupoRequest }) => {
-  const response = await fetch(`http://localhost:5000/api/grupos/${grupoId}`, { //aca fetch
+  const response = await fetch(`${API_URL}/grupos/${grupoId}`, { //aca fetch
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ datosEditados }),

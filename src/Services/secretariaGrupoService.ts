@@ -1,7 +1,9 @@
 import axios from "axios";
 import type { SecretariaInfo, InfoSecretariaGrupal } from '../../types/secretariaGrupo'
 import type { evento } from "../../types/evento";
-const API_URL = "http://localhost:5000/api/secretaria-grupo";
+import { API_URL as BASE_API_URL } from '../config/api';
+
+const API_URL = `${BASE_API_URL}/secretaria-grupo`;
 
 /**
  * Admin: Asignar una secretaria a un grupo
@@ -92,7 +94,7 @@ export const obtenerEventosDeGrupo = async (grupoId: number): Promise<{ eventos:
 
 
 export const asociarEventoAGrupo = async ({ eventoId, grupoId }: { eventoId: number, grupoId: string }) => {
-  const grupoRes = await fetch("http://localhost:5000/api/evento_grupo", { //acafetch
+  const grupoRes = await fetch(`${BASE_API_URL}/evento_grupo`, { //acafetch
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

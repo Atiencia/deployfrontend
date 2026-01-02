@@ -1,8 +1,7 @@
 import axios from "axios";
 import type { registerRequest } from "../../types/Inscripto";
 import type { Rol } from "../../types/secretariaGrupo";
-
-const API_URL = "http://localhost:5000/api";
+import { API_URL, AUTH_URL } from '../config/api';
 
 export const verificarListaDisponible = async (grupoId: number, eventoId: number): Promise<boolean> => {
   const response: { data: { disponible: boolean }, } = await axios.get(`${API_URL}/lista/verificar`, {
@@ -29,7 +28,7 @@ export const fetchRolesService = async () => {
 }
 
 export const asignarRolAUsuario = async ({rol: rol, usuarioId: usuarioId}:{rol: string, usuarioId: number}) => {
-  const response = await fetch(`http://localhost:5000/api/roles/asignar`,
+  const response = await fetch(`${API_URL}/roles/asignar`,
     {
       method: "PUT",
       headers: {
@@ -49,7 +48,7 @@ export const asignarRolAUsuario = async ({rol: rol, usuarioId: usuarioId}:{rol: 
 
 export const fetchUsuariosService = async () => {
   //const responses = await axios.get(`${API_URL}/usuarios`);
-  const response = await fetch(`http://localhost:5000/auth/usuarios`,
+  const response = await fetch(`${AUTH_URL}/usuarios`,
     {
       method: 'GET',
       credentials: 'include',
@@ -74,14 +73,14 @@ export const obtenerRol = async () => {
 }
 
 export const obtenerRoles = async () => {
-  const response = await fetch('http://localhost:5000/api/roles');
+  const response = await fetch(`${API_URL}/roles`);
   if (!response.ok) throw new Error(`Error obteniendo roles: ${response.statusText}`);
   const data: Rol[] = await response.json();
   return data
 }
 
 export const logoutService = async () => {
-  const result = await fetch('http://localhost:5000/auth/logout', {
+  const result = await fetch(`${AUTH_URL}/logout`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -97,7 +96,7 @@ export const logoutService = async () => {
 }
 
 export const loginService = async ({ username: username, password: password }: { username: string, password: string }) => {
-  const response = await fetch("http://localhost:5000/auth/login", { //aca fetch
+  const response = await fetch(`${AUTH_URL}/login`, { //aca fetch
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -124,7 +123,7 @@ export const loginService = async ({ username: username, password: password }: {
 }
 
 export const registerService = async (payload: registerRequest) => {
-  const response = await fetch("http://localhost:5000/auth/register", {
+  const response = await fetch(`${AUTH_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include", // IMPORTANTE para cookies

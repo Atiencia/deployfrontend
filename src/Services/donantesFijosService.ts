@@ -24,7 +24,7 @@ interface ActualizarDonanteDTO {
     id_grupo?: number | null;
 }
 
-const BASE_URL = 'http://localhost:5000/api';
+import { API_URL as BASE_URL } from '../config/api';
 
 export const donantesFijosService = {
     // Obtener todos los donantes (Admin y Secretaría General)

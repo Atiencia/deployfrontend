@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { User } from "../components/UserItem";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { API_URL, AUTH_URL } from '../config/api';
 
 interface UsuarioItemState {
     usuarios: User[]
@@ -37,7 +38,7 @@ export const useUsuarioItemStore = create<UsuarioItemState>((set, get) => ({
 
     setRol: async (rol, usuarioId) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/roles/asignar`,
+            const response = await fetch(`${API_URL}/roles/asignar`,
                 {
                     method: "PUT",
                     headers: {
@@ -70,7 +71,7 @@ export const useUsuarioItemStore = create<UsuarioItemState>((set, get) => ({
     fetchUsuarios: async (search = "") => {
         try {
             const response = await fetch(
-                `http://localhost:5000/usuarios${search ? `?search=${search}` : ""}`
+                `${AUTH_URL}/usuarios${search ? `?search=${search}` : ""}`
             )
             if (!response.ok) throw new Error('Fallo el fetch de los datos');
             const data: { usuarios: User[] } = await response.json()
@@ -81,7 +82,7 @@ export const useUsuarioItemStore = create<UsuarioItemState>((set, get) => ({
     },
 
     fetchRoles: async () => {
-        const response = await fetch('http://localhost:5000/api/roles');
+        const response = await fetch(`${API_URL}/roles`);
         if (!response.ok) throw new Error('Fallo el fetch de los datos');
         const data: Rol[] = await response.json();
         const roles = data;
@@ -93,7 +94,7 @@ export const useUsuarioItemStore = create<UsuarioItemState>((set, get) => ({
         const { status, data, error } = useQuery({
             queryKey: ['listaRoles'],
             queryFn: async () => {
-                const response = await fetch(`http://localhost:5000/api/roles`);
+                const response = await fetch(`${API_URL}/roles`);
                 if (!response.ok) throw new Error('Ocurrio un error al traer las tareas ')
                 const data: Rol[] = await response.json()
                 return data

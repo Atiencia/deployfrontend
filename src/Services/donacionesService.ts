@@ -16,7 +16,7 @@ interface FiltroDonaciones {
     idGrupo?: number;
 }
 
-const BASE_URL = 'http://localhost:5000/api';
+import { API_URL as BASE_URL } from '../config/api';
 
 export const donacionesService = {
     // Obtener todas las donaciones con filtros
@@ -106,7 +106,7 @@ export const donacionesService = {
 
 export type { Donacion, FiltroDonaciones };
 export const crearPreferenciaDonacion = async ({ monto, descripcion, id_grupo }: { monto: string, descripcion: string, id_grupo?: number }) => {
-    const response = await fetch('http://localhost:5000/api/donaciones/crear_preferencia_donacion', {
+    const response = await fetch(`${BASE_URL}/donaciones/crear_preferencia_donacion`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -135,7 +135,7 @@ export const obtenerDonaciones = async (rolUsuario: number) => {
         endpoint = '/api/donaciones/filtradas'; // Secretaria filtra
     }
 
-    const response = await fetch(`http://localhost:5000${endpoint}`, {
+    const response = await fetch(`${BASE_URL}${endpoint.replace('/api', '')}`, {
         credentials: 'include',
     });
 

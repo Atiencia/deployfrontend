@@ -1,5 +1,7 @@
+import { API_URL } from '../config/api';
+
 export const obtenerNoticia = async (noticiaId: string) => {
-    const res = await fetch(`http://localhost:5000/api/noticias/${noticiaId}`, { credentials: "include" }); //acafetch
+    const res = await fetch(`${API_URL}/noticias/${noticiaId}`, { credentials: "include" }); //acafetch
     if (!res.ok) {
         const errorData = await res.json().catch(() => ({ error: `Error HTTP ${res.status}` }));
         throw new Error(errorData.error || `Error ${res.status}`);
@@ -10,7 +12,7 @@ export const obtenerNoticia = async (noticiaId: string) => {
 }
 
 export const crearNoticia = async (formData: FormData) => {
-    const response = await fetch("http://localhost:5000/api/noticias", {
+    const response = await fetch(`${API_URL}/noticias`, {
         method: "POST",
         credentials: "include", // Importante para cookies/sesiones
         body: formData, // No necesita headers['Content-Type']
@@ -24,7 +26,7 @@ export const crearNoticia = async (formData: FormData) => {
 }
 
 export const obtenerNoticias = async () => {
-    const response = await fetch("http://localhost:5000/api/noticias", { credentials: "include" });
+    const response = await fetch(`${API_URL}/noticias`, { credentials: "include" });
     if (!response.ok) throw new Error(`Error al obtener noticias: ${response.statusText}`)
 
     const data = await response.json()
@@ -45,7 +47,7 @@ export const editarNoticia = async ({ putPayload, noticiaId }:
         noticiaId: string
     }) => {
 
-    const response = await fetch(`http://localhost:5000/api/noticias/${noticiaId}`, {
+    const response = await fetch(`${API_URL}/noticias/${noticiaId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" }, // AHORA SÍ es JSON
         credentials: "include",
@@ -60,7 +62,7 @@ export const editarNoticia = async ({ putPayload, noticiaId }:
 }
 
 export const eliminarNoticia = async (noticiaId: number) => {
-    const response = await fetch(`http://localhost:5000/api/noticias/${noticiaId}`, {
+    const response = await fetch(`${API_URL}/noticias/${noticiaId}`, {
         method: "DELETE",
         credentials: "include",
     });

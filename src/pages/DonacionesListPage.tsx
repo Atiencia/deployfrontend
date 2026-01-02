@@ -102,7 +102,7 @@ export default function DonacionesListPage() {
                 endpoint = '/api/donaciones/filtradas'; // Secretaria filtra
             }
 
-            const response = await fetch(`http://localhost:5000${endpoint}`, {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 credentials: 'include',
             });
 
