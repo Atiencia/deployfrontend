@@ -209,7 +209,8 @@ export function useVerificarInscripcion(eventoId: number) {
     return useQuery({
         queryKey: ['verificarInscripcion', 'id', eventoId],
         queryFn: () => verificarInscripcionUsuario(eventoId),
-        enabled: !!eventoId && rolUsuario !== 0
+        // Solo verificar si el usuario está logueado (rol existe y no es null/undefined/0)
+        enabled: !!eventoId && !!rolUsuario && rolUsuario !== 0
     })
 }
 

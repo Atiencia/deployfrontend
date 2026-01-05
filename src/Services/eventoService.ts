@@ -280,20 +280,31 @@ export const eliminarInscripto = async ({ eventoId, usuarioId }: { eventoId: num
 
 //10. Verificar si el usuario actual está inscrito en un evento
 export const verificarInscripcionUsuario = async (eventoId: number): Promise<boolean> => {
-  // Usar el nuevo endpoint específico para verificar inscripción del usuario actual
-  const response = await fetch(`${API_URL}/verificar-inscripcion`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ eventoId: eventoId })
-  });
+  try {
+    const response = await fetch(`${API_URL}/verificar-inscripcion`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ eventoId: eventoId })
+    });
 
-  if (!response.ok) throw new Error(`Error verificando inscripción: ${response.statusText}`)
+    // Si no está autenticado (401), simplemente retornar false sin lanzar error
+    if (response.status === 401) {
+      return false;
+    }
 
-  const data = await response.json();
-  return data.inscrito || false;
+    if (!response.ok) {
+      console.error('Error verificando inscripción:', response.status, response.statusText);
+      return false;
+    }
 
-}
+    const data = await response.json();
+    return data.inscrito || false;
+  } catch (error) {
+    console.error('Error en verificarInscripcionUsuario:', error);
+    return false;
+  }
+};
 
 //10.5 Obtener detalles de inscripción (si es suplente, su orden, etc.)
 export const obtenerDetallesInscripcion = async (eventoId: number): Promise<{
@@ -302,25 +313,37 @@ export const obtenerDetallesInscripcion = async (eventoId: number): Promise<{
   ordenSuplente: number | null;
   subgrupo: string | null;
 } | null> => {
-  const response = await fetch(`${API_URL}/detalles-inscripcion`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ eventoId: eventoId })
-  });
+  try {
+    const response = await fetch(`${API_URL}/detalles-inscripcion`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ eventoId: eventoId })
+    });
 
-  if (!response.ok) throw new Error(`Error obteniendo detalles de inscripción: ${response.statusText}`)
+    // Si no está autenticado, retornar null
+    if (response.status === 401) {
+      return null;
+    }
 
-  const data = await response.json();
+    if (!response.ok) {
+      console.error('Error obteniendo detalles de inscripción:', response.status);
+      return null;
+    }
 
-  return {
-    inscrito: data.inscrito || false,
-    esSuplente: data.esSuplente || false,
-    ordenSuplente: data.ordenSuplente || null,
-    subgrupo: data.subgrupo || null
-  };
+    const data = await response.json();
 
-}
+    return {
+      inscrito: data.inscrito || false,
+      esSuplente: data.esSuplente || false,
+      ordenSuplente: data.ordenSuplente || null,
+      subgrupo: data.subgrupo || null
+    };
+  } catch (error) {
+    console.error('Error en obtenerDetallesInscripcion:', error);
+    return null;
+  }
+};
 
 
 //11. Dar de baja la inscripción del usuario actual

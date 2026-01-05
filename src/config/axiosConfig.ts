@@ -15,13 +15,18 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Si el error es 401 (Unauthorized) o 403 (Forbidden)
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    // Si el error es 401 (Unauthorized)
+    if (error.response?.status === 401) {
       // Solo redirigir si NO estamos ya en login
       if (!window.location.pathname.includes('/login')) {
-        console.warn('Token inválido o expirado. Limpiando sesión...');
+        console.warn('Sesión expirada o no autenticado:', error.config?.url);
+        console.warn('Status:', error.response?.status, 'Data:', error.response?.data);
         redirectToLogin();
       }
+    }
+    // Para 403, solo loguear pero NO desloguear (puede ser falta de permisos)
+    if (error.response?.status === 403) {
+      console.warn('Acceso denegado (403):', error.config?.url);
     }
     
     return Promise.reject(error);
@@ -41,14 +46,20 @@ window.fetch = async (...args) => {
     const isAuthRoute = url.includes('/auth/login') || 
                         url.includes('/auth/register');
     
-    // Si la respuesta es 401 o 403, NO es una ruta de autenticación, y NO estamos en login
-    if ((response.status === 401 || response.status === 403) && 
+    // Solo redirigir en 401, NO en 403
+    if (response.status === 401 && 
         !isAuthRoute && 
         !window.location.pathname.includes('/login')) {
-      console.warn('Token inválido o expirado (fetch). Limpiando sesión...');
+      console.warn('Sesión expirada (fetch):', url);
+      console.warn('Status:', response.status);
       redirectToLogin();
       // Clonar la respuesta para que pueda ser leída nuevamente
       return response.clone();
+    }
+    
+    // Para 403, solo loguear
+    if (response.status === 403) {
+      console.warn('Acceso denegado (fetch - 403):', url);
     }
     
     return response;
