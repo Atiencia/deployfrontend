@@ -4,8 +4,17 @@ import Sidebar from "../components/Sidebar";
 import { LoadingSpinner } from "../components/LoadingComponents";
 import PinIcon from "../components/icons/PinIcon";
 import NoticiaDetalleModal from "../components/NoticiasDetalleModal";
+import { API_BASE_URL } from '../config/api';
 import user from "../assets/avatar.png"
 import donacion from "../assets/charity.png"
+import directivaIM from "../assets/directiva.im.JPG"
+import grupoIM from "../assets/grupo-im.jpeg"
+import biblia from "../assets/biblia.jpeg.jpg"
+import ensenanza from "../assets/ensenanza.jpeg.jpg"
+import mayores from "../assets/mayores.jpeg.jpg"
+import alimentos from "../assets/alimentos.jpeg.jpg"
+import salud from "../assets/salud.jpeg.jpg"
+import amor from "../assets/amor.jpeg.jpg"
 import { useLogout } from "../queries/listaQueries";
 import { LoadingButton } from "../components/LoadingButton";
 import { useNoticias } from "../queries/noticiasQueries";
@@ -226,10 +235,10 @@ export default function ViewerHome() {
 
               <div className="flex justify-center items-center bg-white p-4 rounded-xl shadow-xl border border-red-100 h-full overflow-hidden">
                 <img
-                  src="src/assets/directiva.im.JPG"
+                  src={directivaIM}
                   alt="Primeros cristianos compartiendo"
                   className="w-full h-auto object-cover rounded-lg cursor-pointer transition-transform hover:scale-[1.02]"
-                  onClick={() => setLightboxImage("src/assets/directiva.im.JPG")}
+                  onClick={() => setLightboxImage(directivaIM)}
                 />
               </div>
             </div>
@@ -238,12 +247,12 @@ export default function ViewerHome() {
           <div className="max-w-6xl mx-auto px-8 md:px-16 lg:px-24 mb-16 md:mb-24">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 bg-gradient-to-br from-red-50 to-white p-6 rounded-xl shadow-xl border border-red-100">
-                <img src="src/assets/biblia.jpeg.jpg" alt="Estudios bíblicos" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage("src/assets/biblia.jpeg.jpg")} />
-                <img src="src/assets/ensenanza.jpeg.jpg" alt="Enseñanza a niños" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage("src/assets/ensenanza.jpeg.jpg")} />
-                <img src="src/assets/mayores.jpeg.jpg" alt="Acompañar a mayores" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage("src/assets/mayores.jpeg.jpg")} />
-                <img src="src/assets/alimentos.jpeg.jpg" alt="Distribución de alimentos" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage("src/assets/alimentos.jpeg.jpg")} />
-                <img src="src/assets/salud.jpeg.jpg" alt="Programas de salud" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage("src/assets/salud.jpeg.jpg")} />
-                <img src="src/assets/amor.jpeg.jpg" alt="Amor y servicio" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage("src/assets/amor.jpeg.jpg")} />
+                <img src={biblia} alt="Estudios bíblicos" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage(biblia)} />
+                <img src={ensenanza} alt="Enseñanza a niños" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage(ensenanza)} />
+                <img src={mayores} alt="Acompañar a mayores" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage(mayores)} />
+                <img src={alimentos} alt="Distribución de alimentos" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage(alimentos)} />
+                <img src={salud} alt="Programas de salud" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage(salud)} />
+                <img src={amor} alt="Amor y servicio" className="w-full h-32 object-cover rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer" onClick={() => setLightboxImage(amor)} />
               </div>
 
               <div>
@@ -444,7 +453,7 @@ export default function ViewerHome() {
                 <div className="relative">
                   <div className="absolute inset-0 bg-red-200/30 rounded-2xl transform rotate-3"></div>
                   <img
-                    src="src/assets/grupo-im.jpeg"
+                    src={grupoIM}
                     alt="Comunidad misionera"
                     className="relative rounded-2xl shadow-2xl w-full cursor-pointer transition-transform hover:scale-[1.02]"
                     onClick={() => setLightboxImage("src/assets/grupo-im.jpeg")}
@@ -497,7 +506,7 @@ export default function ViewerHome() {
                       {n.imagen_path ? (
                         <div className="relative h-48 overflow-hidden bg-gray-100">
                           <img
-                            src={n.imagen_path.startsWith("http") ? n.imagen_path : n.imagen_path}
+                            src={n.imagen_path.startsWith("http") ? n.imagen_path : `${API_BASE_URL}${n.imagen_path}`}
                             alt={n.titulo}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
