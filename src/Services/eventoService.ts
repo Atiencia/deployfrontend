@@ -7,51 +7,63 @@ const API_URL = `${BASE_API_URL}/eventos`;
 
 // 1. Obtener todos los eventos
 export const obtenerEventos = async (): Promise<evento[]> => {
-  const response = await axios.get<evento[] | { message: string }>(`${API_URL}`,
-    {
-      withCredentials: true
+  try {
+    const response = await axios.get<evento[] | { message: string }>(`${API_URL}`,
+      {
+        withCredentials: true
+      }
+    );
+    // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
+    if (response.data && typeof response.data === 'object' && 'message' in response.data) {
+      return [];
     }
-  );
-  // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener eventos: ${response.statusText}`)
-
-  if (response.data && typeof response.data === 'object' && 'message' in response.data) {
-    return [];
+    return response.data as evento[];
+  } catch (error: any) {
+    console.error('Error al obtener eventos:', error);
+    console.error('API_URL:', API_URL);
+    throw new Error(error.response?.data?.message || error.message || 'Error al cargar eventos');
   }
-  return response.data as evento[];
 };
 
 export const obtenerEventosVigentes = async (): Promise<evento[]> => {
-  const response = await axios.get<evento[] | { message: string }>(`${API_URL}-vigentes`,
-    {
-      withCredentials: true
+  try {
+    const response = await axios.get<evento[] | { message: string }>(`${API_URL}-vigentes`,
+      {
+        withCredentials: true
+      }
+    );
+    console.log('obtenerEventosVigentes response:', response.data);
+    // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
+    if (response.data && typeof response.data === 'object' && 'message' in response.data) {
+      return [];
     }
-  );
-  console.log('obtenerEventosVigentes response:', response.data);
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener eventos: ${response.statusText}`)
-
-  // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
-  if (response.data && typeof response.data === 'object' && 'message' in response.data) {
-    return [];
+    return response.data as evento[];
+  } catch (error: any) {
+    console.error('Error al obtener eventos vigentes:', error);
+    console.error('API_URL:', API_URL);
+    throw new Error(error.response?.data?.message || error.message || 'Error al cargar eventos vigentes');
   }
-  return response.data as evento[];
 };
 
 export const obtenerEventosTranscurridos = async (): Promise<evento[]> => {
-  const response = await axios.get<evento[] | { message: string }>(`${API_URL}-transcurridos`,
-    {
-      withCredentials: true
+  try {
+    const response = await axios.get<evento[] | { message: string }>(`${API_URL}-transcurridos`,
+      {
+        withCredentials: true
+      }
+    );
+    console.log(response.data)
+
+    // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
+    if (response.data && typeof response.data === 'object' && 'message' in response.data) {
+      return [];
     }
-  );
-  console.log(response.data)
-
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener eventos: ${response.statusText}`)
-
-  // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
-  if (response.data && typeof response.data === 'object' && 'message' in response.data) {
-    return [];
+    return response.data as evento[];
+  } catch (error: any) {
+    console.error('Error al obtener eventos transcurridos:', error);
+    console.error('API_URL:', API_URL);
+    throw new Error(error.response?.data?.message || error.message || 'Error al cargar eventos transcurridos');
   }
-  return response.data as evento[];
 };
 
 export const obtenerEventosCancelados = async (): Promise<evento[]> => {
