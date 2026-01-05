@@ -7,7 +7,7 @@ import NoticiaDetalleModal from "../components/NoticiasDetalleModal";
 import { API_BASE_URL } from '../config/api';
 import user from "../assets/avatar.png"
 import donacion from "../assets/charity.png"
-// import directivaIM from "../assets/directiva.im.JPG" // Imagen problemática - usar fetch desde backend
+import directivaIM from "../assets/directiva-im.jpg"
 import grupoIM from "../assets/grupo-im.jpeg"
 import biblia from "../assets/biblia.jpeg.jpg"
 import ensenanza from "../assets/ensenanza.jpeg.jpg"
@@ -235,10 +235,10 @@ export default function ViewerHome() {
 
               <div className="flex justify-center items-center bg-white p-4 rounded-xl shadow-xl border border-red-100 h-full overflow-hidden">
                 <img
-                  src="/src/assets/directiva.im.JPG"
+                  src={directivaIM}
                   alt="Primeros cristianos compartiendo"
                   className="w-full h-auto object-cover rounded-lg cursor-pointer transition-transform hover:scale-[1.02]"
-                  onClick={() => setLightboxImage("/src/assets/directiva.im.JPG")}
+                  onClick={() => setLightboxImage(directivaIM)}
                 />
               </div>
             </div>
