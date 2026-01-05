@@ -4,12 +4,16 @@ import type { CrearGrupoRequest } from "../../types/secretariaGrupo";
 import { API_URL } from '../config/api';
 
 export const obtenerGrupos = async () => {
-  const response = await axios.get<grupo[]>(`${API_URL}/grupos`, {
-    withCredentials: true
-  });
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener grupos: ${response.statusText}`)
-
-  return response.data;
+  try {
+    const response = await axios.get<grupo[]>(`${API_URL}/grupos`, {
+      withCredentials: true
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error('Error al obtener grupos:', error);
+    console.error('API_URL:', API_URL);
+    throw new Error(error.response?.data?.message || error.message || 'Error al cargar grupos');
+  }
 };
 
 export const obtenerGruposActivos = async () => {
