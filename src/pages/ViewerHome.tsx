@@ -383,7 +383,7 @@ export default function ViewerHome() {
           </ul>
 
           {userName ? (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 ml-auto">
               <span className="hidden sm:inline text-sm text-gray-600">
                 Bienvenido, <span className="font-semibold text-gray-800">{userName}</span>
               </span>
@@ -402,7 +402,7 @@ export default function ViewerHome() {
           ) : (
             <button
               type="button"
-              className="px-6 py-2 bg-red-700 text-white text-sm font-medium uppercase tracking-wide rounded hover:bg-red-800 transition-colors"
+              className="px-6 py-2 bg-red-700 text-white text-sm font-medium uppercase tracking-wide rounded hover:bg-red-800 transition-colors ml-auto"
               onClick={() => navigate("/login")}
             >
               Login
