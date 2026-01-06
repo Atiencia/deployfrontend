@@ -58,12 +58,12 @@ export default function DonacionesListPage() {
     const [filtroFecha, setFiltroFecha] = useState("");
     const rolUsuario = useAtomValue(userRolAtom)
 
-    const { data: donaciones, isLoading: loading, error, refetch } = useDonaciones(rolUsuario)
+    const { data: donaciones = [], isLoading: loading, error, refetch } = useDonaciones(rolUsuario)
 
     // Filtra las donaciones basándose en la búsqueda
-    const donacionesFiltradas = donaciones ? donaciones.filter((d: Donacion) =>
+    const donacionesFiltradas = donaciones.filter((d: Donacion) =>
         `${d.nombre} ${d.apellido}`.toLowerCase().includes(busqueda.toLowerCase())
-    ) : [];
+    );
 
     /*
     const [rolUsuario, setRolUsuario] = useState<number>(null as unknown as number);
@@ -217,7 +217,7 @@ export default function DonacionesListPage() {
 
                             <button
                                 className="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800"
-                                onClick={() => refetch}
+                                onClick={() => refetch()}
                             >
                                 Actualizar {/* borramos este boton? */}
                             </button>
