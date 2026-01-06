@@ -164,16 +164,13 @@ export default function DonacionesListPage() {
                                 <div className="bg-green-100 p-4 rounded-lg">
                                     <p className="text-green-800 font-semibold text-sm md:text-base">Total Aprobado</p>
                                     <p className="text-xl md:text-2xl font-bold">
-                                        ${donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((sum: number, d: Donacion) => sum + d.monto, 0).toFixed(2)}
+                                        ${(donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((sum: number, d: Donacion) => sum + (Number(d.monto) || 0), 0)).toFixed(2)}
                                     </p>
                                 </div>
                                 <div className="bg-purple-100 p-4 rounded-lg">
                                     <p className="text-purple-800 font-semibold text-sm md:text-base">Total Donantes</p>
                                     <p className="text-xl md:text-2xl font-bold">
-                                        {donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((acc: any, d: Donacion) => {
-                                            if (!acc.includes(d.id_usuario)) acc.push(d.id_usuario);
-                                            return acc;
-                                        }, [] as number[]).length}
+                                        {new Set(donaciones.filter((d: Donacion) => d.estado === 'aprobado').map((d: Donacion) => d.id_usuario)).size}
                                     </p>
                                 </div>
                             </div>
@@ -183,7 +180,7 @@ export default function DonacionesListPage() {
                                 <div className="bg-green-100 p-4 rounded-lg">
                                     <p className="text-green-800 font-semibold">Total Aprobado</p>
                                     <p className="text-2xl font-bold">
-                                        ${donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((sum: number, d: Donacion) => sum + d.monto, 0)}
+                                        ${(donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((sum: number, d: Donacion) => sum + (Number(d.monto) || 0), 0)).toFixed(2)}
                                     </p>
                                 </div>
                                 <div className="bg-yellow-100 p-4 rounded-lg">
