@@ -67,45 +67,53 @@ export const obtenerEventosTranscurridos = async (): Promise<evento[]> => {
 };
 
 export const obtenerEventosCancelados = async (): Promise<evento[]> => {
-  const response = await axios.get<evento[] | { message: string }>(`${API_URL}-cancelados`,
-    {
-      withCredentials: true
+  try {
+    const response = await axios.get<evento[] | { message: string }>(`${API_URL}-cancelados`,
+      {
+        withCredentials: true
+      }
+    );
+
+    // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
+    if (response.data && typeof response.data === 'object' && 'message' in response.data) {
+      return [];
     }
-  );
-
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener eventos: ${response.statusText}`)
-
-  // Si el backend devuelve un mensaje en lugar de un array, retornar array vacío
-  if (response.data && typeof response.data === 'object' && 'message' in response.data) {
-    return [];
+    return response.data as evento[];
+  } catch (error: any) {
+    console.error('Error al obtener eventos cancelados:', error);
+    console.error('API_URL:', API_URL);
+    throw new Error(error.response?.data?.message || error.message || 'Error al cargar eventos cancelados');
   }
-  return response.data as evento[];
 };
 
 // Obtener eventos donde el usuario está inscrito
 export const obtenerMisEventos = async (): Promise<evento[]> => {
-  const response = await axios.get<evento[]>(`${API_URL}/mis-eventos`,
-    {
-      withCredentials: true
-    }
-  );
-
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener eventos: ${response.statusText}`)
-
-  return response.data;
+  try {
+    const response = await axios.get<evento[]>(`${API_URL}/mis-eventos`,
+      {
+        withCredentials: true
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error('Error al obtener mis eventos:', error);
+    throw new Error(error.response?.data?.message || error.message || 'Error al cargar mis eventos');
+  }
 };
 
 // Obtener eventos disponibles donde el usuario NO está inscrito
 export const obtenerEventosDisponibles = async (): Promise<evento[]> => {
-  const response = await axios.get<evento[]>(`${API_URL}/eventos-disponibles`,
-    {
-      withCredentials: true
-    }
-  );
-
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener eventos: ${response.statusText}`)
-
-  return response.data;
+  try {
+    const response = await axios.get<evento[]>(`${API_URL}/eventos-disponibles`,
+      {
+        withCredentials: true
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error('Error al obtener eventos disponibles:', error);
+    throw new Error(error.response?.data?.message || error.message || 'Error al cargar eventos disponibles');
+  }
 };
 
 export const obtenerEventosPorGrupo = async (grupoId: number): Promise<evento[]> => {

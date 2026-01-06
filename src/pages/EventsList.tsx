@@ -380,28 +380,34 @@ export default function EventosComponent() {
   // Mostrar loading mientras se cargan los datos
   if (loading) {
     return (
-      <div className="flex-1 flex flex-col md:ml-56">
-        <main className="pt-10 px-8">
-          <div className="flex justify-center items-center py-12">
-            <LoadingSpinner />
-          </div>
-        </main>
-      </div>
+      <>
+        <Sidebar />
+        <div className="flex-1 flex flex-col md:ml-56">
+          <main className="pt-10 px-8">
+            <div className="flex justify-center items-center py-12">
+              <LoadingSpinner />
+            </div>
+          </main>
+        </div>
+      </>
     );
   }
 
   // Mostrar error si hay problemas cargando eventos
   if (error) {
     return (
-      <div className="flex-1 flex flex-col md:ml-56">
-        <main className="pt-10 px-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-6">Eventos</h1>
-          <ErrorState
-            message={errorMsg.message.includes('401') ? 'Logueate para poder acceder a los eventos! ' : errorMsg.message}
-            onRetry={() => window.location.reload()}
-          />
-        </main>
-      </div>
+      <>
+        <Sidebar />
+        <div className="flex-1 flex flex-col md:ml-56">
+          <main className="pt-10 px-8">
+            <h1 className="text-2xl font-bold text-gray-800 mb-6">Eventos</h1>
+            <ErrorState
+              message={errorMsg.message.includes('401') ? 'Logueate para poder acceder a los eventos! ' : errorMsg.message}
+              onRetry={() => window.location.reload()}
+            />
+          </main>
+        </div>
+      </>
     );
   }
 
