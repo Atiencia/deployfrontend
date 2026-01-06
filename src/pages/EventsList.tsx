@@ -383,7 +383,7 @@ export default function EventosComponent() {
       <>
         <Sidebar />
         <div className="flex-1 flex flex-col md:ml-56">
-          <main className="pt-10 px-8">
+          <main className="pt-20 md:pt-10 px-4 md:px-8">
             <div className="flex justify-center items-center py-12">
               <LoadingSpinner />
             </div>
@@ -399,7 +399,7 @@ export default function EventosComponent() {
       <>
         <Sidebar />
         <div className="flex-1 flex flex-col md:ml-56">
-          <main className="pt-10 px-8">
+          <main className="pt-20 md:pt-10 px-4 md:px-8">
             <h1 className="text-2xl font-bold text-gray-800 mb-6">Eventos</h1>
             <ErrorState
               message={errorMsg.message.includes('401') ? 'Logueate para poder acceder a los eventos! ' : errorMsg.message}
@@ -415,7 +415,7 @@ export default function EventosComponent() {
     <>
       <Sidebar />
       <div className="flex-1 flex flex-col md:ml-56">
-        <main className="pt-10 px-8">
+        <main className="pt-20 md:pt-10 px-4 md:px-8">
           {/* Banner de registro para usuarios no logueados */}
           {rolUsuario === 0 && (
             <div className="mb-8 p-6 bg-gradient-to-br from-red-50 via-orange-50 to-amber-50 border-2 border-red-200 rounded-xl shadow-lg">

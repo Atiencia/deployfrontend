@@ -68,42 +68,42 @@ export default function ListarNoticias() {
     // Opcional: Ordenar por fecha, más nuevas primero
     .sort((a: Noticia, b: Noticia) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()) : [];
 
-  // Pantallas de Carga y Error (sin cambios)
-  if (loading) {
-        return (
-      <div className="min-h-screen flex bg-gray-100">
-        <Sidebar />
-        <div className="flex-1 flex flex-col md:ml-56">
-          <main className="pt-10 px-8 flex-1 flex justify-center items-center">
-            <LoadingSpinner size="lg" message="Cargando noticias..." />
-          </main>
-        </div>
-      </div>
-    );
-  }
-  if (error) {
-        return (
-      <div className="min-h-screen flex bg-gray-100">
-        <Sidebar />
-        <div className="flex-1 flex flex-col md:ml-56">
-          <main className="pt-10 px-8 flex-1 flex justify-center items-center">
+// Pantallas de Carga y Error (sin cambios)
+  if (loading) {
+          return (
+      <div className="min-h-screen flex bg-gray-100">
+        <Sidebar />
+        <div className="flex-1 flex flex-col md:ml-56">
+          <main className="pt-20 md:pt-10 px-4 md:px-8 flex-1 flex justify-center items-center">
+            <LoadingSpinner size="lg" message="Cargando noticias..." />
+          </main>
+        </div>
+      </div>
+    );
+  }
+  if (error) {
+        return (
+      <div className="min-h-screen flex bg-gray-100">
+        <Sidebar />
+        <div className="flex-1 flex flex-col md:ml-56">
+          <main className="pt-20 md:pt-10 px-4 md:px-8 flex-1 flex justify-center items-center">
           {/* Asegúrate que ErrorState exista y acepte estas props */}
-            <ErrorState message={error.message} onRetry={refetch} />
-          </main>
-        </div>
-      </div>
-    );
-  }
+            <ErrorState message={error.message} onRetry={refetch} />
+          </main>
+        </div>
+      </div>
+    );
+  }
 
   // --- RENDERIZADO PRINCIPAL (MODIFICADO) ---
   return (
     <div className="min-h-screen flex bg-gray-100">
       <Sidebar />
       <div className="flex-1 flex flex-col md:ml-56">
-        <main className="pt-10 px-8">
+        <main className="pt-20 md:pt-10 px-4 md:px-8">
           {/* --- Cabecera (Simplificada) --- */}
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Noticias</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Noticias</h1>
           </div>
 
           {/* --- Filtros (Copiado de EventsList) --- */}
@@ -196,16 +196,16 @@ export default function ListarNoticias() {
 
                   {/* Botones de Admin (Estilo EventsList) */}
                   {(rolUsuario === 1 || rolUsuario === 2 || rolUsuario === 4) && (
-                    <div className="absolute top-3 right-3 z-10 flex gap-2">
+                    <div className="flex md:absolute md:top-3 md:right-3 z-10 gap-2 p-3 md:p-0 border-b md:border-b-0">
                       <button
                         onClick={() => navigate(`/noticias/modificar/${n.id_noticia}`)}
-                        className="px-4 py-2 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition"
+                        className="flex-1 md:flex-none px-3 md:px-4 py-2 text-xs md:text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition"
                       >
                         Modificar {/* <-- TEXTO CAMBIADO */}
                       </button>
                       <button
                         onClick={() => handleDelete(n.id_noticia)}
-                        className="px-4 py-2 text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-100 transition"
+                        className="flex-1 md:flex-none px-3 md:px-4 py-2 text-xs md:text-sm border border-red-300 text-red-600 rounded-md hover:bg-red-100 transition"
                       >
                         Eliminar
                       </button>
@@ -213,12 +213,12 @@ export default function ListarNoticias() {
                   )}
 
                   {/* Contenido de la Noticia (Estilo Lista) */}
-                  <div className="flex items-start p-4">
+                  <div className="flex flex-col md:flex-row items-start p-4">
                     {n.imagen_path && (
                       <img
                         src={n.imagen_path.startsWith("http") ? n.imagen_path : n.imagen_path}
                         alt={n.titulo}
-                        className="w-32 h-32 object-cover rounded-md mr-4 flex-shrink-0"
+                        className="w-full md:w-32 h-48 md:h-32 object-cover rounded-md md:mr-4 mb-4 md:mb-0 flex-shrink-0"
                       />
                     )}
                     <div className="flex-1">

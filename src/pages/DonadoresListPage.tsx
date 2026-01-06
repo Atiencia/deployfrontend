@@ -60,7 +60,7 @@ export default function DonadoresListPage() {
 		return (
 			<div className="flex min-h-screen">
 				<Sidebar />
-				<div className="flex-1 flex justify-center items-center">
+				<div className="flex-1 md:ml-56 flex justify-center items-center pt-20 md:pt-0">
 					<LoadingSpinner message="Cargando donadores..." />
 				</div>
 			</div>
@@ -68,21 +68,21 @@ export default function DonadoresListPage() {
 	}
 
 	return (
-		<div className="flex justify-end min-h-screen bg-gray-100">
+		<div className="flex min-h-screen bg-gray-100">
 			<Sidebar />
 
-			<div className="w-full md:w-5/6 p-8">
+			<div className="flex-1 md:ml-56 p-4 md:p-8 pt-20 md:pt-8 w-full">
 				<div className="flex-1">
-					<div className="flex justify-between items-center mb-6">
+					<div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
 						<div className="flex items-center">
 							<Link to="/home" className="mr-4">
 								<img className="h-6" src={flechaAtras} alt="Volver" />
 							</Link>
-							<h1 className="text-4xl font-extrabold text-black">Gestión de Donadores</h1>
+							<h1 className="text-2xl md:text-4xl font-extrabold text-black">Gestión de Donadores</h1>
 						</div>
 						{(rolUsuario === 4 || rolUsuario === 5) && (
 							<div>
-								<Link to="/crear-donador" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Registrar donante</Link>
+								<Link to="/crear-donador" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm md:text-base">Registrar donante</Link>
 							</div>
 						)}
 					</div>

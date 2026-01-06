@@ -122,7 +122,7 @@ export default function DonacionesListPage() {
         return (
             <div className="flex min-h-screen">
                 <Sidebar />
-                <div className="flex-1 flex justify-center items-center">
+                <div className="flex-1 md:ml-56 flex justify-center items-center pt-20 md:pt-0">
                     <LoadingSpinner message="Cargando donaciones..." />
                 </div>
             </div>
@@ -133,7 +133,7 @@ export default function DonacionesListPage() {
         return (
             <div className="flex min-h-screen">
                 <Sidebar />
-                <div className="flex-1 flex justify-center items-center p-8">
+                <div className="flex-1 md:ml-56 flex justify-center items-center p-4 md:p-8 pt-20 md:pt-8">
                     <ErrorState
                         message={error.message || 'Error al cargar las donaciones'}
                         onRetry={() => refetch()}
@@ -144,32 +144,32 @@ export default function DonacionesListPage() {
     }
 
     return (
-        <div className="flex justify-end min-h-screen bg-gray-100">
+        <div className="flex min-h-screen bg-gray-100">
             <Sidebar />
 
-            <div className="w-full md:w-5/6 p-8">
+            <div className="flex-1 md:ml-56 p-4 md:p-8 pt-20 md:pt-8 w-full">
                 <div className="flex-1">
                     {/* Encabezado */}
-                    <div className="flex justify-between items-center mb-6">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
                         <div className="flex items-center">
                             <Link to="/home" className="mr-4">
                                 <img className="h-6" src={flechaAtras} alt="Volver" />
                             </Link>
-                            <h1 className="text-4xl font-extrabold text-black">
+                            <h1 className="text-2xl md:text-4xl font-extrabold text-black">
                                 {isMisDonaciones ? 'Mis Donaciones' : 'Gestión de Donaciones'}
                             </h1>
                         </div>
                         {!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2) && (
-                            <div className="flex gap-4">
+                            <div className="flex flex-col sm:flex-row gap-4">
                                 <div className="bg-green-100 p-4 rounded-lg">
-                                    <p className="text-green-800 font-semibold">Total Aprobado</p>
-                                    <p className="text-2xl font-bold">
-                                        ${donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((sum: number, d: Donacion) => sum + d.monto, 0)}
+                                    <p className="text-green-800 font-semibold text-sm md:text-base">Total Aprobado</p>
+                                    <p className="text-xl md:text-2xl font-bold">
+                                        ${donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((sum: number, d: Donacion) => sum + d.monto, 0).toFixed(2)}
                                     </p>
                                 </div>
                                 <div className="bg-purple-100 p-4 rounded-lg">
-                                    <p className="text-purple-800 font-semibold">Total Donantes</p>
-                                    <p className="text-2xl font-bold">
+                                    <p className="text-purple-800 font-semibold text-sm md:text-base">Total Donantes</p>
+                                    <p className="text-xl md:text-2xl font-bold">
                                         {donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((acc: any, d: Donacion) => {
                                             if (!acc.includes(d.id_usuario)) acc.push(d.id_usuario);
                                             return acc;

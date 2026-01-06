@@ -34,11 +34,10 @@ export default function EventosCanceladosPage() {
   }) : [];
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <section className="w-70"></section>
-      <div className="p-6 w-full">
-        <h2 className="text-2xl font-bold mb-4 text-center">Eventos Cancelados</h2>
+      <div className="flex-1 md:ml-56 p-4 md:p-6 pt-20 md:pt-6 w-full">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Eventos Cancelados</h2>
         
         {/* Filtros */}
         <div className="mb-6 space-y-4">
