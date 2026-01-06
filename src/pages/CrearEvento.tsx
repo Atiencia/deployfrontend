@@ -222,11 +222,11 @@ export default function CrearEvento() {
       <Sidebar />
 
       {/* Contenido principal */}
-      <div className="flex-1 p-6 md:p-12">
+      <div className="flex-1 p-4 md:p-12 pt-20 md:pt-12 md:ml-56">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Crear Evento</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Crear Evento</h1>
             <p className="text-gray-600">Complete la información para crear un nuevo evento</p>
           </div>
 
