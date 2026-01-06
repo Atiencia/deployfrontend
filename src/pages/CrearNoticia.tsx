@@ -172,8 +172,8 @@ export default function CrearNoticia() {
   return (
     <div className="flex min-h-screen bg-gray-100"> {/* Fondo gris claro */}
       <Sidebar />
-      <div className="flex-1 p-6 md:p-10"> {/* Padding general */}
-        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+      <div className="flex-1 p-4 md:p-10 pt-20 md:pt-10 md:ml-56"> {/* Padding general */}
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">
           Crear Noticia
         </h2>
 

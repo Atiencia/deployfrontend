@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useAsignarRol, useRoles, useUsuarios } from '../queries/listaQueries';
 import { useGrupos } from '../queries/gruposQueries';
 import { useAsignacionSecretaria } from '../queries/secretariaGrupoQueries';
+import LoadingSpinner from '../components/LoadingComponents';
 
 interface Rol {
   id_rol: number;
@@ -13,7 +14,7 @@ interface Rol {
 
 export default function GestionRoles() {
   
-  const { data: usuarios = [] } = useUsuarios()
+  const { data: usuarios = [], isLoading: loadingUsuarios } = useUsuarios()
   const { data: grupos = [] } = useGrupos()
   const { data: roles = [] } = useRoles()
 
@@ -175,7 +176,15 @@ export default function GestionRoles() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {usuariosFiltrados.length === 0 ? (
+                    {loadingUsuarios ? (
+                      <tr>
+                        <td colSpan={5} className="px-4 py-8">
+                          <div className="flex justify-center items-center">
+                            <LoadingSpinner size="md" message="Cargando usuarios..." />
+                          </div>
+                        </td>
+                      </tr>
+                    ) : usuariosFiltrados.length === 0 ? (
                       <tr>
                         <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
                           No se encontraron usuarios
