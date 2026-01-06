@@ -104,12 +104,14 @@ export default function Sidebar() {
   useEffect(() => {
     setMenuOpen(false);
 
-    const isGruposPath = location.pathname.startsWith("/grupos");
+    const isGruposPath = location.pathname.startsWith("/grupos") || 
+                         location.pathname.startsWith("/crear-grupo");
     const isEventosPath =
       location.pathname.startsWith("/eventos") ||
       location.pathname.startsWith("/mis-eventos") ||
       location.pathname.startsWith("/crear-evento");
-    const isDonacionesPath = location.pathname.startsWith("/donaciones");
+    const isDonacionesPath = location.pathname.startsWith("/donaciones") ||
+                             location.pathname.startsWith("/donadores");
     const isAdminPath = location.pathname.startsWith("/admin");
     const isNoticiasPath = location.pathname.startsWith("/noticias");
 
