@@ -1,15 +1,33 @@
 import axios from 'axios';
-import { redirectToLogin } from '../utils/authUtils';
+import { redirectToLogin, getAuthToken } from '../utils/authUtils';
 import { API_BASE_URL } from './api';
 
 // Crear una instancia de axios con configuración base
 export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true,
+  withCredentials: true, // Para cookies (funciona en PC)
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// Interceptor de solicitudes para agregar el token en el header
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // Obtener el token del localStorage
+    const token = getAuthToken();
+    
+    // Si existe el token, agregarlo al header Authorization
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // Interceptor de respuestas para manejar errores de autenticación
 axiosInstance.interceptors.response.use(
@@ -37,6 +55,27 @@ axiosInstance.interceptors.response.use(
 const originalFetch = window.fetch;
 window.fetch = async (...args) => {
   try {
+    // Agregar el token al header si existe
+    const token = getAuthToken();
+    
+    if (token && args[1]) {
+      // Si ya hay opciones en la petición
+      args[1] = {
+        ...args[1],
+        headers: {
+          ...(args[1].headers || {}),
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+    } else if (token && !args[1]) {
+      // Si no hay opciones, crearlas
+      args[1] = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+    }
+    
     const response = await originalFetch(...args);
     
     // Obtener la URL de la petición

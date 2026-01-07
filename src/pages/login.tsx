@@ -9,7 +9,7 @@ import { clearAllCache } from "../hooks/useCachedData";
 import { useSetAtom } from "jotai";
 import { userRolAtom } from "../store/jotaiStore";
 import { useNavigate } from "react-router-dom";
-import { clearAuthData } from "../utils/authUtils";
+import { clearAuthData, setAuthToken } from "../utils/authUtils";
 import { AUTH_URL } from '../config/api';
 
 export default function Login() {
@@ -33,6 +33,12 @@ export default function Login() {
     onSuccess: (data: any) => {
       // Limpiar cualquier dato de sesión anterior antes de establecer los nuevos
       clearAuthData();
+      
+      // Guardar el token si viene en la respuesta (solución híbrida)
+      if (data.token) {
+        setAuthToken(data.token);
+        console.log('✅ Token guardado en localStorage');
+      }
       
       toast.success(`Bienvenido, ${data.nombre}`)
       setUserRol(data.rol)

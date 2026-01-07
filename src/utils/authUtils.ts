@@ -3,6 +3,7 @@ export const clearAuthData = () => {
   // Limpiar localStorage
   localStorage.removeItem('userRol');
   localStorage.removeItem('userName');
+  localStorage.removeItem('authToken'); // ← Nuevo: limpiar token
   
   // Limpiar sessionStorage por si acaso
   sessionStorage.clear();
@@ -15,10 +16,21 @@ export const clearAuthData = () => {
   });
 };
 
+// Obtener el token de autenticación
+export const getAuthToken = (): string | null => {
+  return localStorage.getItem('authToken');
+};
+
+// Guardar el token de autenticación
+export const setAuthToken = (token: string): void => {
+  localStorage.setItem('authToken', token);
+};
+
 // Verificar si hay un token válido
 export const isAuthenticated = (): boolean => {
   const userRol = localStorage.getItem('userRol');
-  return !!userRol && parseInt(userRol) > 0;
+  const token = getAuthToken();
+  return (!!userRol && parseInt(userRol) > 0) || !!token;
 };
 
 // Redirigir al login con limpieza completa
