@@ -1,8 +1,7 @@
 //pagina para hacer el listado de donaciones
 
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import flechaAtras from "../assets/flechaizquierda.png";
+import { useLocation } from "react-router-dom";
 import lupa from "../assets/search.png";
 import Sidebar from "../components/Sidebar";
 import 'react-toastify/dist/ReactToastify.css';

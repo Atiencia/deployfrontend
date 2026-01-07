@@ -1,5 +1,4 @@
 // Página que lista los donadores según vista de administrador/secretaria
-import flechaAtras from "../assets/flechaizquierda.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import lupa from "../assets/search.png";
@@ -47,7 +46,6 @@ export default function DonadoresListPage() {
 	// Determinar qué datos usar según el rol
 	const datosAMostrar = esSecretariaGrupal ? donantesGrupo : donadores;
 	const isLoadingData = esSecretariaGrupal ? loadingDGrupo : loading;
-	const refetch = esSecretariaGrupal ? refetchGrupo : refetchTodos;
 
 	const donadoresFiltrados = datosAMostrar ? datosAMostrar.filter((d: Donador) =>
 		`${d.nombre} ${d.apellido}`.toLowerCase().includes(busqueda.toLowerCase()) ||
