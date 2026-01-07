@@ -74,12 +74,7 @@ export default function DonadoresListPage() {
 			<div className="flex-1 md:ml-56 p-4 md:p-8 pt-20 md:pt-8 w-full">
 				<div className="flex-1">
 					<div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
-						<div className="flex items-center">
-							<Link to="/home" className="mr-4">
-								<img className="h-6" src={flechaAtras} alt="Volver" />
-							</Link>
-							<h1 className="text-2xl md:text-4xl font-extrabold text-black">Gestión de Donadores</h1>
-						</div>
+						<h1 className="text-2xl md:text-4xl font-extrabold text-black">Gestión de Donadores</h1>
 						{(rolUsuario === 4 || rolUsuario === 5) && (
 							<div>
 								<Link to="/crear-donador" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm md:text-base">Registrar donante</Link>
@@ -88,19 +83,16 @@ export default function DonadoresListPage() {
 					</div>
 
 					<div className="bg-white p-4 md:p-8 rounded-xl shadow-lg">
-						<div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-4">
-							<div className="flex items-center gap-2 w-full md:w-auto">
-								<img src={lupa} alt="Buscar" className="h-4" />
-								<input
-									type="text"
-									value={busqueda}
-									onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusqueda(e.target.value)}
-									className="w-full md:w-80 bg-gray-100 rounded-md p-2 text-sm"
-									placeholder="Buscar..."
-								/>
-							</div>
-							<button onClick={() => refetch()} className="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm md:text-base w-full md:w-auto">Actualizar</button>
-						</div >
+						<div className="flex items-center gap-2 w-full md:w-auto mb-4">
+							<img src={lupa} alt="Buscar" className="h-4" />
+							<input
+								type="text"
+								value={busqueda}
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusqueda(e.target.value)}
+								className="w-full md:w-80 bg-gray-100 rounded-md p-2 text-sm"
+								placeholder="Buscar..."
+							/>
+						</div>
 
 						{/* Vista Desktop - Tabla */}
 						<div className="hidden md:block">

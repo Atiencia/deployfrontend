@@ -183,14 +183,9 @@ export default function DonacionesListPage() {
                 <div className="flex-1">
                     {/* Encabezado */}
                     <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
-                        <div className="flex items-center">
-                            <Link to="/home" className="mr-4">
-                                <img className="h-6" src={flechaAtras} alt="Volver" />
-                            </Link>
-                            <h1 className="text-2xl md:text-4xl font-extrabold text-black">
-                                {isMisDonaciones ? 'Mis Donaciones' : 'Gestión de Donaciones'}
-                            </h1>
-                        </div>
+                        <h1 className="text-2xl md:text-4xl font-extrabold text-black">
+                            {isMisDonaciones ? 'Mis Donaciones' : 'Gestión de Donaciones'}
+                        </h1>
                         {!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2) && (
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <div className="bg-green-100 p-4 rounded-lg">
@@ -228,39 +223,30 @@ export default function DonacionesListPage() {
                     {/* Tabla de donaciones */}
                     <div className="bg-white p-4 md:p-8 rounded-xl shadow-lg">
                         {/* Barra de búsqueda */}
-                        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-3">
-                            <div className="flex flex-col md:flex-row md:items-center gap-3 w-full">
-                                <div className="flex items-center gap-2 w-full md:w-auto">
-                                    <img src={lupa} alt="Buscar" className="h-4 flex-shrink-0" />
-                                    <input
-                                        type="text"
-                                        value={busqueda}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusqueda(e.target.value)}
-                                        className="w-full md:w-80 bg-gray-100 rounded-md p-2 text-sm"
-                                        placeholder="Buscar por donador..."
-                                    />
-                                </div>
-                                <input 
-                                    type="date" 
-                                    value={filtroFecha} 
-                                    onChange={(e) => setFiltroFecha(e.target.value)} 
-                                    className="p-2 border rounded text-sm w-full md:w-auto" 
-                                />
-                                <input 
-                                    type="text" 
-                                    placeholder="Filtrar por grupo" 
-                                    value={filtroGrupo} 
-                                    onChange={(e) => setFiltroGrupo(e.target.value)} 
-                                    className="p-2 border rounded text-sm w-full md:w-auto" 
+                        <div className="flex flex-col md:flex-row md:items-center gap-3 w-full mb-4">
+                            <div className="flex items-center gap-2 w-full md:w-auto">
+                                <img src={lupa} alt="Buscar" className="h-4 flex-shrink-0" />
+                                <input
+                                    type="text"
+                                    value={busqueda}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusqueda(e.target.value)}
+                                    className="w-full md:w-80 bg-gray-100 rounded-md p-2 text-sm"
+                                    placeholder="Buscar por donador..."
                                 />
                             </div>
-
-                            <button
-                                className="w-full md:w-auto px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm whitespace-nowrap"
-                                onClick={() => refetch()}
-                            >
-                                Actualizar
-                            </button>
+                            <input 
+                                type="date" 
+                                value={filtroFecha} 
+                                onChange={(e) => setFiltroFecha(e.target.value)} 
+                                className="p-2 border rounded text-sm w-full md:w-auto" 
+                            />
+                            <input 
+                                type="text" 
+                                placeholder="Filtrar por grupo" 
+                                value={filtroGrupo} 
+                                onChange={(e) => setFiltroGrupo(e.target.value)} 
+                                className="p-2 border rounded text-sm w-full md:w-auto" 
+                            />
                         </div>
 
                         {/* Encabezados de la tabla - Solo visible en desktop */}
