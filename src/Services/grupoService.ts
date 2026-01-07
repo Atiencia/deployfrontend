@@ -1,13 +1,11 @@
-import axios from "axios";
+import { axiosInstance } from "../config/axiosConfig";
 import type { grupo } from "../../types/evento";
 import type { CrearGrupoRequest } from "../../types/secretariaGrupo";
 import { API_URL } from '../config/api';
 
 export const obtenerGrupos = async () => {
   try {
-    const response = await axios.get<grupo[]>(`${API_URL}/grupos`, {
-      withCredentials: true
-    });
+    const response = await axiosInstance.get<grupo[]>(`${API_URL}/grupos`);
     return response.data;
   } catch (error: any) {
     console.error('Error al obtener grupos:', error);
@@ -17,22 +15,12 @@ export const obtenerGrupos = async () => {
 };
 
 export const obtenerGruposActivos = async () => {
-  const response = await axios.get<grupo[]>(`${API_URL}/grupos`, {
-    withCredentials: true
-  });
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener grupos activos: ${response.statusText}`)
-
+  const response = await axiosInstance.get<grupo[]>(`${API_URL}/grupos`);
   return response.data;
 };
 
 export const obtenerGrupo = async (id: string) => {
-  const response = await axios.get<grupo>(`${API_URL}/grupos/${id}`,
-    {
-      withCredentials: true
-    }
-  );
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener grupo: ${response.statusText}`)
-
+  const response = await axiosInstance.get<grupo>(`${API_URL}/grupos/${id}`);
   return response.data
 }
 
