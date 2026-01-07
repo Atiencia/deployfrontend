@@ -40,13 +40,45 @@ function DonacionItem({ donacion }: DonacionItemProps) {
     };
 
     return (
-        <div className="grid grid-cols-6 gap-2 p-2 hover:bg-gray-100 transition-colors rounded-lg text-sm">
-            <p className="flex-shrink-0">{donacion.id_donacion}</p>
-            <p className="flex-1">{donacion.nombre} {donacion.apellido}</p>
-            <p className="flex-1">${donacion.monto}</p>
-            <p className="flex-1">{new Date(donacion.fecha_donacion).toLocaleDateString('es-AR')}</p>
-            <p className={`flex-1 capitalize ${getEstadoColor(donacion.estado)}`}>{donacion.estado}</p>
-        </div>
+        <>
+            {/* Vista móvil - Tarjeta */}
+            <div className="md:hidden bg-white border border-gray-200 rounded-lg p-4 shadow-sm space-y-2">
+                <div className="flex justify-between items-start">
+                    <div>
+                        <p className="text-xs text-gray-500">ID: {donacion.id_donacion}</p>
+                        <p className="font-semibold text-base">{donacion.nombre} {donacion.apellido}</p>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
+                        donacion.estado === 'aprobado' ? 'bg-green-100 text-green-700' :
+                        donacion.estado === 'pendiente' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-red-100 text-red-700'
+                    }`}>
+                        {donacion.estado}
+                    </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 border-t">
+                    <div>
+                        <p className="text-xs text-gray-500">Monto</p>
+                        <p className="font-bold text-lg text-green-600">${donacion.monto}</p>
+                    </div>
+                    <div className="text-right">
+                        <p className="text-xs text-gray-500">Fecha</p>
+                        <p className="text-sm">{new Date(donacion.fecha_donacion).toLocaleDateString('es-AR')}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Vista desktop - Tabla */}
+            <div className="hidden md:grid grid-cols-5 gap-4 p-4 hover:bg-gray-50 transition-colors rounded-lg text-sm border-b border-gray-100">
+                <p className="font-medium">{donacion.id_donacion}</p>
+                <p className="truncate">{donacion.nombre} {donacion.apellido}</p>
+                <p className="font-semibold text-green-600">${donacion.monto}</p>
+                <p>{new Date(donacion.fecha_donacion).toLocaleDateString('es-AR')}</p>
+                <p className={`capitalize font-medium ${getEstadoColor(donacion.estado)}`}>
+                    {donacion.estado}
+                </p>
+            </div>
+        </>
     );
 }
 
@@ -194,34 +226,45 @@ export default function DonacionesListPage() {
                     </div>
 
                     {/* Tabla de donaciones */}
-                    <div className="bg-white p-8 rounded-xl shadow-lg">
+                    <div className="bg-white p-4 md:p-8 rounded-xl shadow-lg">
                         {/* Barra de búsqueda */}
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex items-center gap-3">
-                                <img src={lupa} alt="Buscar" className="h-4" />
-                                <input
-                                    type="text"
-                                    value={busqueda}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusqueda(e.target.value)}
-                                    className="w-full md:w-80 bg-gray-100 rounded-md p-2"
-                                    placeholder="Buscar por donador o método de pago"
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-3">
+                            <div className="flex flex-col md:flex-row md:items-center gap-3 w-full">
+                                <div className="flex items-center gap-2 w-full md:w-auto">
+                                    <img src={lupa} alt="Buscar" className="h-4 flex-shrink-0" />
+                                    <input
+                                        type="text"
+                                        value={busqueda}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusqueda(e.target.value)}
+                                        className="w-full md:w-80 bg-gray-100 rounded-md p-2 text-sm"
+                                        placeholder="Buscar por donador..."
+                                    />
+                                </div>
+                                <input 
+                                    type="date" 
+                                    value={filtroFecha} 
+                                    onChange={(e) => setFiltroFecha(e.target.value)} 
+                                    className="p-2 border rounded text-sm w-full md:w-auto" 
                                 />
-                                <input type="date" value={filtroFecha} onChange={(e) => setFiltroFecha(e.target.value)} className="p-2 border rounded" />
-                                <input type="text" placeholder="Filtrar por grupo" value={filtroGrupo} onChange={(e) => setFiltroGrupo(e.target.value)} className="p-2 border rounded" />
+                                <input 
+                                    type="text" 
+                                    placeholder="Filtrar por grupo" 
+                                    value={filtroGrupo} 
+                                    onChange={(e) => setFiltroGrupo(e.target.value)} 
+                                    className="p-2 border rounded text-sm w-full md:w-auto" 
+                                />
                             </div>
 
-
-
                             <button
-                                className="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800"
+                                className="w-full md:w-auto px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 text-sm whitespace-nowrap"
                                 onClick={() => refetch()}
                             >
-                                Actualizar {/* borramos este boton? */}
+                                Actualizar
                             </button>
                         </div>
 
-                        {/* Encabezados de la tabla con grid */}
-                        <div className="grid grid-cols-6 gap-2 font-bold p-4 bg-gray-50 rounded-lg mb-4">
+                        {/* Encabezados de la tabla - Solo visible en desktop */}
+                        <div className="hidden md:grid grid-cols-5 gap-4 font-bold p-4 bg-gray-50 rounded-lg mb-4 text-sm">
                             <p>ID</p>
                             <p>Donador</p>
                             <p>Monto</p>
@@ -230,7 +273,7 @@ export default function DonacionesListPage() {
                         </div>
 
                         {/* Lista de donaciones */}
-                        <div className="space-y-2">
+                        <div className="space-y-3 md:space-y-0">
                             {donacionesFiltradas.length > 0 ? (
                                 donacionesFiltradas.map((d: Donacion) => <DonacionItem key={d.id_donacion} donacion={d} />)
                             ) : (
