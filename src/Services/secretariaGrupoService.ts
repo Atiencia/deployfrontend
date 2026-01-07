@@ -37,10 +37,10 @@ export const removerSecretariaDeGrupo = async ({ usuarioId, grupoId }: { usuario
  */
 export const obtenerGruposDeSecretaria = async (usuarioId: number): Promise<{ grupos: number[] }> => {
   const response = await axiosInstance.get<{ grupos: number[] }>(
-    `${API_URL}/usuario/${usuarioId}/grupos`,
-    { withCredentials: true }
+    `${API_URL}/usuario/${usuarioId}/grupos`
   );
-  );
+
+  return response.data;
 };
 
 /**
@@ -48,10 +48,10 @@ export const obtenerGruposDeSecretaria = async (usuarioId: number): Promise<{ gr
  */
 export const obtenerSecretariasDeGrupo = async (grupoId: number): Promise<{ secretarias: SecretariaInfo[] }> => {
   const response = await axiosInstance.get<{ secretarias: SecretariaInfo[] }>(
-    `${API_URL}/grupo/${grupoId}/secretarias`,
-    { withCredentials: true }
+    `${API_URL}/grupo/${grupoId}/secretarias`
   );
-  );
+
+  return response.data;
 };
 
 /**
@@ -71,10 +71,10 @@ export const obtenerMisGrupos = async (): Promise<InfoSecretariaGrupal> => {
  */
 export const obtenerEventosDeGrupo = async (grupoId: number): Promise<{ eventos: evento[] }> => {
   const response = await axiosInstance.get<{ eventos: any[] }>(
-    `${API_URL}/grupo/${grupoId}/eventos`,
-    { withCredentials: true }
+    `${API_URL}/grupo/${grupoId}/eventos`
   );
-  );
+
+  return response.data;
 };
 
 
