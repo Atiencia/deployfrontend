@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../config/axiosConfig";
 import type { SecretariaInfo, InfoSecretariaGrupal } from '../../types/secretariaGrupo'
 import type { evento } from "../../types/evento";
 import { API_URL as BASE_API_URL } from '../config/api';
@@ -9,7 +9,7 @@ const API_URL = `${BASE_API_URL}/secretaria-grupo`;
  * Admin: Asignar una secretaria a un grupo
  */
 export const asignarSecretariaAGrupo = async ({ usuarioId, grupoId }: { usuarioId: number, grupoId: number }): Promise<any> => {
-  const response = await axios.post(
+  const response = await axiosInstance.post(
     `${API_URL}/asignar`,
     { usuarioId, grupoId },
     { withCredentials: true }
@@ -25,7 +25,7 @@ export const asignarSecretariaAGrupo = async ({ usuarioId, grupoId }: { usuarioI
  * CONSIDERAR SI SE USA
  */
 export const removerSecretariaDeGrupo = async ({ usuarioId, grupoId }: { usuarioId: number, grupoId: number }): Promise<any> => {
-  const response = await axios({
+  const response = await axiosInstance({
     method: 'delete',
     url: `${API_URL}/remover`,
     data: { usuarioId, grupoId },
@@ -41,7 +41,7 @@ export const removerSecretariaDeGrupo = async ({ usuarioId, grupoId }: { usuario
  * //NO SE USA 
  */
 export const obtenerGruposDeSecretaria = async (usuarioId: number): Promise<{ grupos: number[] }> => {
-  const response = await axios.get<{ grupos: number[] }>(
+  const response = await axiosInstance.get<{ grupos: number[] }>(
     `${API_URL}/usuario/${usuarioId}/grupos`,
     { withCredentials: true }
   );
@@ -54,7 +54,7 @@ export const obtenerGruposDeSecretaria = async (usuarioId: number): Promise<{ gr
  * Admin/Secretaria General: Obtener todas las secretarias de un grupo
  */
 export const obtenerSecretariasDeGrupo = async (grupoId: number): Promise<{ secretarias: SecretariaInfo[] }> => {
-  const response = await axios.get<{ secretarias: SecretariaInfo[] }>(
+  const response = await axiosInstance.get<{ secretarias: SecretariaInfo[] }>(
     `${API_URL}/grupo/${grupoId}/secretarias`,
     { withCredentials: true }
   );
@@ -68,7 +68,7 @@ export const obtenerSecretariasDeGrupo = async (grupoId: number): Promise<{ secr
  * CAMBIO LOGICA CAMBIAR DEMAS
  */
 export const obtenerMisGrupos = async (): Promise<InfoSecretariaGrupal> => {
-  const response = await axios.get<InfoSecretariaGrupal>(
+  const response = await axiosInstance.get<InfoSecretariaGrupal>(
     `${API_URL}/mis-grupos`,
     { withCredentials: true }
   );
@@ -82,7 +82,7 @@ export const obtenerMisGrupos = async (): Promise<InfoSecretariaGrupal> => {
  * Secretaria Grupal: Obtener eventos de un grupo específico
  */
 export const obtenerEventosDeGrupo = async (grupoId: number): Promise<{ eventos: evento[] }> => {
-  const response = await axios.get<{ eventos: any[] }>(
+  const response = await axiosInstance.get<{ eventos: any[] }>(
     `${API_URL}/grupo/${grupoId}/eventos`,
     { withCredentials: true }
   );
