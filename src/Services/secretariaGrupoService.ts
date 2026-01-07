@@ -11,11 +11,8 @@ const API_URL = `${BASE_API_URL}/secretaria-grupo`;
 export const asignarSecretariaAGrupo = async ({ usuarioId, grupoId }: { usuarioId: number, grupoId: number }): Promise<any> => {
   const response = await axiosInstance.post(
     `${API_URL}/asignar`,
-    { usuarioId, grupoId },
-    { withCredentials: true }
+    { usuarioId, grupoId }
   );
-
-  if (response.statusText !== 'OK') throw new Error(`Error al asignar secretaria a grupo: ${response.statusText}`)
 
   return response.data;
 };
@@ -28,10 +25,8 @@ export const removerSecretariaDeGrupo = async ({ usuarioId, grupoId }: { usuario
   const response = await axiosInstance({
     method: 'delete',
     url: `${API_URL}/remover`,
-    data: { usuarioId, grupoId },
-    withCredentials: true
+    data: { usuarioId, grupoId }
   });
-  if (response.statusText !== 'OK') throw new Error(`Error al remover la secretaria: ${response.statusText}`)
 
   return response.data;
 };
@@ -45,9 +40,7 @@ export const obtenerGruposDeSecretaria = async (usuarioId: number): Promise<{ gr
     `${API_URL}/usuario/${usuarioId}/grupos`,
     { withCredentials: true }
   );
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener grupos asignados: ${response.statusText}`)
-
-  return response.data;
+  );
 };
 
 /**
@@ -58,9 +51,7 @@ export const obtenerSecretariasDeGrupo = async (grupoId: number): Promise<{ secr
     `${API_URL}/grupo/${grupoId}/secretarias`,
     { withCredentials: true }
   );
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener secretarias: ${response.statusText}`)
-
-  return response.data;
+  );
 };
 
 /**
@@ -69,11 +60,8 @@ export const obtenerSecretariasDeGrupo = async (grupoId: number): Promise<{ secr
  */
 export const obtenerMisGrupos = async (): Promise<InfoSecretariaGrupal> => {
   const response = await axiosInstance.get<InfoSecretariaGrupal>(
-    `${API_URL}/mis-grupos`,
-    { withCredentials: true }
+    `${API_URL}/mis-grupos`
   );
-
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener mis grupos: ${response.statusText}`)
 
   return response.data;
 };
@@ -86,10 +74,7 @@ export const obtenerEventosDeGrupo = async (grupoId: number): Promise<{ eventos:
     `${API_URL}/grupo/${grupoId}/eventos`,
     { withCredentials: true }
   );
-
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener eventos del grupo: ${response.statusText}`)
-
-  return response.data;
+  );
 };
 
 
