@@ -27,8 +27,8 @@ export default function DonadoresListPage() {
 	const esSecretariaGrupal = rolUsuario === 5;
 	
 	// Cargar solo los datos necesarios según el rol - usar la misma queryKey
-	const { data: donadores, isLoading: loading, refetch: refetchTodos } = useDonadores(!esSecretariaGrupal && rolUsuario !== null);
-	const { data: donantesGrupo, isLoading: loadingDGrupo, refetch: refetchGrupo } = useDonadoresGrupo(undefined, esSecretariaGrupal && rolUsuario !== null);
+	const { data: donadores, isLoading: loading } = useDonadores(!esSecretariaGrupal && rolUsuario !== null);
+	const { data: donantesGrupo, isLoading: loadingDGrupo } = useDonadoresGrupo(undefined, esSecretariaGrupal && rolUsuario !== null);
 
 	const { mutate: eliminarDonante } = useEliminarDonantes()
 
