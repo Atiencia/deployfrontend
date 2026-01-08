@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { redirectToLogin, getAuthToken } from '../utils/authUtils';
+import { redirectToLogin, getAuthToken, isTokenExpired } from '../utils/authUtils';
 import { API_BASE_URL } from './api';
 
 // Crear una instancia de axios con configuración base
@@ -17,8 +17,16 @@ axiosInstance.interceptors.request.use(
     // Obtener el token del localStorage
     const token = getAuthToken();
     
-    // Si existe el token, agregarlo al header Authorization
+    // Si existe el token, verificar si está expirado
     if (token) {
+      if (isTokenExpired(token)) {
+        // Token expirado, limpiar y redirigir al login
+        console.warn('⚠️ Token expirado detectado en interceptor');
+        redirectToLogin();
+        return Promise.reject(new Error('Token expirado'));
+      }
+      
+      // Token válido, agregarlo al header
       config.headers.Authorization = `Bearer ${token}`;
     }
     
