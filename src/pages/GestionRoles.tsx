@@ -18,13 +18,6 @@ export default function GestionRoles() {
   const { data: grupos = [] } = useGrupos()
   const { data: roles = [], isLoading: loadingRoles } = useRoles()
 
-  console.log('🚀 Datos cargados:');
-  console.log('👥 Usuarios:', usuarios);
-  console.log('🎭 Roles:', roles);
-  console.log('👥 Primer usuario:', usuarios[0]);
-  console.log('⏳ Loading roles:', loadingRoles);
-  console.log('⏳ Loading usuarios:', loadingUsuarios);
-
   const { mutate: asignarSecretariaAGrupo, isPending: procesandoAsignacionSecretaria } = useAsignacionSecretaria()
   const { mutate: asignarRolAUsuario, isPending: procesandoAsignacionRol } = useAsignarRol()
 
@@ -116,20 +109,8 @@ export default function GestionRoles() {
   );
 
   const getRolNombre = (id_rol: number | null | undefined): string => {
-    console.log('🔍 getRolNombre llamado con id_rol:', id_rol, 'tipo:', typeof id_rol);
-    console.log('📋 Roles disponibles:', roles);
-    
-    if (!id_rol) {
-      console.log('⚠️ id_rol es falsy, retornando "Sin rol"');
-      return 'Sin rol';
-    }
-    
-    const rol = roles.find((r: Rol) => {
-      console.log('Comparando:', r.id_rol, 'tipo:', typeof r.id_rol, 'con', id_rol, 'tipo:', typeof id_rol, 'resultado:', r.id_rol === id_rol);
-      return r.id_rol === id_rol;
-    });
-    
-    console.log('✅ Rol encontrado:', rol);
+    if (!id_rol) return 'Sin rol';
+    const rol = roles.find((r: Rol) => r.id_rol === id_rol);
     return rol ? rol.nombre : 'Sin rol';
   };
 

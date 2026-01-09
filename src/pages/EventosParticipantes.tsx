@@ -13,6 +13,7 @@ import { useAtomValue } from "jotai";
 import { userRolAtom } from "../store/jotaiStore";
 import { useEventosPorGrupo, useInscriptos } from "../queries/eventosQueries";
 import { useGrupos } from "../queries/gruposQueries";
+import { useMisGruposSecretaria } from "../queries/secretariaGrupoQueries";
 
 
 
@@ -69,14 +70,27 @@ export default function EventosParticipantes() {
   const [eventoSeleccionado, setEventoSeleccionado] = useState<number>("" as unknown as number)
   const [grupoSeleccionado, setGrupoSeleccionado] = useState<number>("" as unknown as number)
   const [mostrarLista, setMostrarLista] = useState(false);
+  const rolUsuario = useAtomValue(userRolAtom)
+  
   const {data: inscriptos, isLoading: inscriptosLoading}  = useInscriptos(eventoSeleccionado)
-  const {data: grupos, isLoading: gruposLoading} = useGrupos()
+  
+  // Si es secretaria grupal (rol 5), usar useMisGruposSecretaria para obtener solo su grupo asignado
+  // Si es admin o secretaria general, usar useGrupos para obtener todos los grupos
+  const {data: gruposAdmin, isLoading: gruposAdminLoading} = useGrupos()
+  const {data: infoSecretaria, isLoading: gruposSecretariaLoading} = useMisGruposSecretaria(rolUsuario)
+  
+  // Determinar qué grupos y loading usar según el rol
+  const grupos = rolUsuario === 5 ? infoSecretaria?.grupos : gruposAdmin
+  const gruposLoading = rolUsuario === 5 ? gruposSecretariaLoading : gruposAdminLoading
+  
   const {data: eventos, isLoading: eventosLoading} = useEventosPorGrupo(grupoSeleccionado)
   
   // Estados para lazy loading
   const [paginaActual, setPaginaActual] = useState(1);
   const [mostrandoTodos, setMostrandoTodos] = useState(false);
-  const rolUsuario = useAtomValue(userRolAtom)
+  
+  console.log('🎭 Grupos obtenidos:', grupos);
+  console.log('👤 Rol usuario:', rolUsuario);
 
 
   /*/ Usar cache para grupos con clave única por rol para evitar conflictos al cambiar de usuario

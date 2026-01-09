@@ -22,26 +22,20 @@ export const fetchRolesService = async () => {
     }
   );
 
-  console.log('🎭 Respuesta completa de roles:', response.data);
-  console.log('🎭 Status:', response.status, 'StatusText:', response.statusText);
-  
   // En axios, si llega aquí es porque fue exitoso (200-299)
   // response.data ya contiene los datos parseados
   const data: any = response.data;
   
   // Si viene en un objeto con propiedad roles, extraerla
   if (data && Array.isArray(data.roles)) {
-    console.log('✅ Roles encontrados en data.roles:', data.roles);
     return data.roles;
   }
   
   // Si es directamente un array
   if (Array.isArray(data)) {
-    console.log('✅ Roles encontrados directamente:', data);
     return data;
   }
   
-  console.error('❌ No se encontraron roles en la respuesta:', data);
   return [];
 }
 
