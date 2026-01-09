@@ -78,9 +78,8 @@ export const obtenerRol = async () => {
       withCredentials: true,
     }
   );
-    if (response.statusText !== 'OK') throw new Error(`Error al obtener rol: ${response.statusText}`)
 
-  const data: any = await response.data
+  const data: any = response.data
   return data
 }
 

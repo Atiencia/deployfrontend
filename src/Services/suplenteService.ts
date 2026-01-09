@@ -18,8 +18,7 @@ export const suplenteService = {
       }
     );
 
-    if (response.statusText !== 'OK') throw new Error(`Error al obtener estadisticas: ${response.statusText}`)
-
+    // En axios, si llega aquí es porque fue exitoso (200-299)
     return response.data;
   },
 
@@ -35,7 +34,6 @@ export const suplenteService = {
         withCredentials: true
       }
     );
-    if (response.statusText !== 'OK') throw new Error(`Error al obtener suplentes: ${response.statusText}`)
 
     return response.data;
   },
@@ -52,7 +50,6 @@ export const suplenteService = {
         withCredentials: true
       }
     );
-    if (response.statusText !== 'OK') throw new Error(`Error al darse de baja: ${response.statusText}`)
 
     return response.data.message;
   }
@@ -66,7 +63,6 @@ export const suplenteService = {
         withCredentials: true
       }
     );
-    if (response.statusText !== 'OK') throw new Error(`Error al eliminar suplente: ${response.statusText}`)
 
     return response.data.message;
   }

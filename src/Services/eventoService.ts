@@ -148,9 +148,6 @@ export const obtenerEventoPorId = async (id: number): Promise<evento> => {
     }
   )
 
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener evento: ${response.statusText}`)
-
-
   return response.data;
 };
 
@@ -222,9 +219,6 @@ export const asignarCupos = async (eventoId: number, cupos: number) => {
     cupos,
   });
 
-  if (response.statusText !== 'OK') throw new Error(`Error al asignar cupos: ${response.statusText}`)
-
-
   return response.data;
 };
 
@@ -235,8 +229,6 @@ export const contarInscriptos = async (eventoId: number): Promise<number> => {
     eventoId,
   });
 
-  if (response.statusText !== 'OK') throw new Error(`Error al contar inscriptos: ${response.statusText}`)
-
   return response.data.count;
 };
 
@@ -245,8 +237,6 @@ export async function obtenerInscriptos(idEvento: number): Promise<Inscripto[]> 
   const response = await axios.post<Inscripto[]>(`${API_URL}/inscriptos/lista`, {
     eventoId: idEvento,
   }, { withCredentials: true });
-
-  if (response.statusText !== 'OK') throw new Error(`Error al obtener inscritos: ${response.statusText}`)
 
   return response.data;
 }
