@@ -16,12 +16,14 @@ export default function GestionRoles() {
   
   const { data: usuarios = [], isLoading: loadingUsuarios } = useUsuarios()
   const { data: grupos = [] } = useGrupos()
-  const { data: roles = [] } = useRoles()
+  const { data: roles = [], isLoading: loadingRoles } = useRoles()
 
   console.log('🚀 Datos cargados:');
   console.log('👥 Usuarios:', usuarios);
   console.log('🎭 Roles:', roles);
   console.log('👥 Primer usuario:', usuarios[0]);
+  console.log('⏳ Loading roles:', loadingRoles);
+  console.log('⏳ Loading usuarios:', loadingUsuarios);
 
   const { mutate: asignarSecretariaAGrupo, isPending: procesandoAsignacionSecretaria } = useAsignacionSecretaria()
   const { mutate: asignarRolAUsuario, isPending: procesandoAsignacionRol } = useAsignarRol()
@@ -196,11 +198,11 @@ export default function GestionRoles() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {loadingUsuarios ? (
+                    {loadingUsuarios || loadingRoles ? (
                       <tr>
                         <td colSpan={5} className="px-4 py-8">
                           <div className="flex justify-center items-center">
-                            <LoadingSpinner size="md" message="Cargando usuarios..." />
+                            <LoadingSpinner size="md" message={loadingRoles ? "Cargando roles..." : "Cargando usuarios..."} />
                           </div>
                         </td>
                       </tr>
@@ -312,9 +314,9 @@ export default function GestionRoles() {
 
                 {/* Vista móvil - Cards */}
                 <div className="md:hidden space-y-4">
-                  {loadingUsuarios ? (
+                  {loadingUsuarios || loadingRoles ? (
                     <div className="flex justify-center items-center py-8">
-                      <LoadingSpinner size="md" message="Cargando usuarios..." />
+                      <LoadingSpinner size="md" message={loadingRoles ? "Cargando roles..." : "Cargando usuarios..."} />
                     </div>
                   ) : usuariosFiltrados.length === 0 ? (
                     <div className="text-center text-gray-500 py-8">
