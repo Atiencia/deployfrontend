@@ -22,11 +22,11 @@ export const fetchRolesService = async () => {
     }
   );
 
-  if (response.statusText !== 'OK') throw new Error(`Error obteniendo roles: ${response.statusText}`)
-  
   console.log('🎭 Respuesta completa de roles:', response.data);
+  console.log('🎭 Status:', response.status, 'StatusText:', response.statusText);
   
-  // El backend podría devolver { roles: [...] } o directamente [...]
+  // En axios, si llega aquí es porque fue exitoso (200-299)
+  // response.data ya contiene los datos parseados
   const data: any = response.data;
   
   // Si viene en un objeto con propiedad roles, extraerla
