@@ -22,9 +22,27 @@ export const fetchRolesService = async () => {
     }
   );
 
-  if (response.statusText !== 'OK') throw new Error(`Error obteniendo usuarios: ${response.statusText}`)
-  const data: any = await response.data
-  return data
+  if (response.statusText !== 'OK') throw new Error(`Error obteniendo roles: ${response.statusText}`)
+  
+  console.log('🎭 Respuesta completa de roles:', response.data);
+  
+  // El backend podría devolver { roles: [...] } o directamente [...]
+  const data: any = response.data;
+  
+  // Si viene en un objeto con propiedad roles, extraerla
+  if (data && Array.isArray(data.roles)) {
+    console.log('✅ Roles encontrados en data.roles:', data.roles);
+    return data.roles;
+  }
+  
+  // Si es directamente un array
+  if (Array.isArray(data)) {
+    console.log('✅ Roles encontrados directamente:', data);
+    return data;
+  }
+  
+  console.error('❌ No se encontraron roles en la respuesta:', data);
+  return [];
 }
 
 export const asignarRolAUsuario = async ({rol: rol, usuarioId: usuarioId}:{rol: string, usuarioId: number}) => {
