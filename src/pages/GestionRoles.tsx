@@ -28,7 +28,7 @@ export default function GestionRoles() {
   const [grupoSeleccionado, setGrupoSeleccionado] = useState<number>(0);
 
 
-  const handleEditarRol = (usuarioId: number, rolActual: number) => {
+  const handleEditarRol = (usuarioId: number, rolActual: number | null | undefined) => {
     const rolActualNombre = getRolNombre(rolActual);
     setEditandoUsuario(usuarioId);
     setRolSeleccionado(rolActualNombre);
@@ -108,12 +108,14 @@ export default function GestionRoles() {
     usuario.dni.toString().includes(busqueda)
   );
 
-  const getRolNombre = (id_rol: number): string => {
+  const getRolNombre = (id_rol: number | null | undefined): string => {
+    if (!id_rol) return 'Sin rol';
     const rol = roles.find((r: Rol) => r.id_rol === id_rol);
     return rol ? rol.nombre : 'Sin rol';
   };
 
-  const getRolColor = (id_rol: number): string => {
+  const getRolColor = (id_rol: number | null | undefined): string => {
+    if (!id_rol) return 'bg-gray-100 text-gray-700';
     switch (id_rol) {
       case 1: return 'bg-purple-100 text-purple-700'; // developer
       case 2: return 'bg-red-100 text-red-700'; // admin
