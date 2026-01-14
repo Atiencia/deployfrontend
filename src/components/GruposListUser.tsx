@@ -46,30 +46,30 @@ export function GruposItem({ grupo }: grupoItemProps) {
             className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:scale-[1.02] group cursor-pointer"
         >
             <div
-                className="h-48 bg-cover bg-center flex flex-col justify-end p-5"
+                className="h-48 sm:h-56 bg-cover bg-center flex flex-col justify-end p-4 sm:p-5"
                 style={{ backgroundImage: `url(${grupo.imagen_url})` }}
                 onClick={handleClick}
             >
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-colors duration-300" />
 
                 <div className="relative z-10 text-white">
-                    <h1 className="text-2xl font-bold">{grupo.nombre}</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold">{grupo.nombre}</h1>
 
                     <div className="overflow-hidden transition-all duration-500 max-h-0 group-hover:max-h-32">
-                        <p className="mt-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
+                        <p className="mt-2 text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out">
                             {grupo.descripcion}
                         </p>
                     </div>
 
-                    <div className="flex justify-between gap-3 mt-4 opacity-100 group-hover:opacity-80 transition-opacity duration-500">
-                        <div className="flex gap-3">
+                    <div className="flex justify-between gap-2 sm:gap-3 mt-3 sm:mt-4 opacity-100 group-hover:opacity-80 transition-opacity duration-500">
+                        <div className="flex gap-2 sm:gap-3">
                             <a
                                 href={`https://instagram.com/${grupo.usuario_instagram}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <img src={instaIcon} width={28} className="hover:scale-110 transition-transform" />
+                                <img src={instaIcon} width={24} className="sm:w-7 hover:scale-110 transition-transform" />
                             </a>
 
                             <a
@@ -78,15 +78,15 @@ export function GruposItem({ grupo }: grupoItemProps) {
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <img src={whatsIcon} width={28} className="hover:scale-110 transition-transform" />
+                                <img src={whatsIcon} width={24} className="sm:w-7 hover:scale-110 transition-transform" />
                             </a>
                         </div>
 
                         <div onClick={handleFollow}>
                             <img
                                 src={seguido ? siguiendo : seguir}
-                                width={28}
-                                className="hover:scale-110 transition-transform"
+                                width={24}
+                                className="sm:w-7 hover:scale-110 transition-transform"
                             />
                         </div>
                     </div>
@@ -142,48 +142,48 @@ export default function GruposListUser() {
         <>
             <div className="flex min-h-screen bg-gray-50">
                 <Sidebar />
-                <main className="flex-1 ml-56 p-8">
-                    <div className="max-w-6xl mx-auto p-5">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-8 ">
+                <main className="flex-1 md:ml-56 pt-20 md:pt-8 px-4 md:px-8 pb-4 md:pb-8">
+                    <div className="max-w-6xl mx-auto p-2 md:p-5">
+                        <h2 className="text-xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-8">
                             Mis grupos
                         </h2>
 
                         {misGrupos.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                 {misGrupos.map((g: grupo) => <GruposItem grupo={g} key={g.id_grupo} />)}
                             </div>
                         ) : (
-                            <p className="text-center text-gray-500 col-span-2">Los grupos a los que sigas apareceran aca!</p>
+                            <p className="text-center text-gray-500 text-sm md:text-base">Los grupos a los que sigas apareceran aca!</p>
                         )}
                     </div>
 
-                    <div className="max-w-6xl mx-auto p-5">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-8 ">
+                    <div className="max-w-6xl mx-auto p-2 md:p-5">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-8">
                             Solicitudes pendientes
                         </h2>
 
                         {gruposPend && gruposPend.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                 {gruposPend.map((g: grupo) => <GruposItem grupo={g} key={g.id_grupo} />)}
                             </div>
                         ) : (
-                            <p className="text-center text-gray-500 col-span-2">No hay solicitudes pendientes.</p>
+                            <p className="text-center text-gray-500 text-sm md:text-base">No hay solicitudes pendientes.</p>
                         )}
 
                     </div>
-                    <div className="max-w-6xl mx-auto p-5">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-8 ">
+                    <div className="max-w-6xl mx-auto p-2 md:p-5">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-8">
                             Otros grupos
                         </h2>
 
 
                         {restoGrupos.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8"
                             >
                                 {restoGrupos.map((g) => <GruposItem grupo={g} key={g.id_grupo} />)}
                             </div>)
                             : (
-                                <p className="text-center text-gray-500 col-span-2">Cargando...</p>
+                                <p className="text-center text-gray-500 text-sm md:text-base">Cargando...</p>
                             )}
 
                     </div>

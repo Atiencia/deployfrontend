@@ -182,7 +182,7 @@ export default function DonacionesListPage() {
                 <div className="flex-1">
                     {/* Encabezado */}
                     <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
-                        <h1 className="text-2xl md:text-4xl font-extrabold text-black">
+                        <h1 className="text-2xl md:text-3xl font-bold text-black">
                             {isMisDonaciones ? 'Mis Donaciones' : 'Gestión de Donaciones'}
                         </h1>
                         {!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2) && (

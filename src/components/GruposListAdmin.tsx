@@ -176,23 +176,23 @@ export default function GruposListAdmin() {
                         </nav> */}
 
                         {/* Grupos */}
-                        <main className="p-8 flex-1">
-                            <h1 className="text-2xl font-bold text-gray-800 mb-6">Grupos</h1>
+                        <main className="pt-20 md:pt-8 px-4 md:px-8 pb-8 flex-1">
+                            <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">Grupos</h1>
 
                             {/* Filtros BUSCADOR */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
                                 <input
                                     type="text"
                                     placeholder="Buscar por nombre o descripción..."
-                                    className="px-4 py-2 border rounded w-full"
+                                    className="px-3 md:px-4 py-2 border rounded w-full text-sm md:text-base"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
 
                             {/* Información de resultados */}
-                            <div className="mb-6 flex justify-between items-center">
-                                <p className="text-sm text-gray-600">
+                            <div className="mb-4 md:mb-6 flex justify-between items-center">
+                                <p className="text-xs md:text-sm text-gray-600">
                                     Mostrando <span className="font-semibold">{gruposFiltrados.length}</span> grupos
                                     {searchTerm && <span> (filtrados de {grupos?.length})</span>}
                                 </p>
@@ -200,8 +200,8 @@ export default function GruposListAdmin() {
 
                             {/* Lista de grupos */}
                             {gruposFiltrados.length === 0 ? (
-                                <div className="text-center py-12">
-                                    <p className="text-gray-500">No se encontraron grupos.</p>
+                                <div className="text-center py-8 md:py-12">
+                                    <p className="text-sm md:text-base text-gray-500">No se encontraron grupos.</p>
                                 </div>
                             ) : (
                                 <ul >
@@ -213,15 +213,15 @@ export default function GruposListAdmin() {
                                             exit={{ opacity: 0, scale: 0.98 }}
                                             className="w-full group"
                                         >
-                                            <div className="relative flex items-center bg-white border border-gray-100 rounded-lg p-3 hover:shadow-md transition-all duration-200 hover:border-gray-200">
+                                            <div className="relative flex items-center bg-white border border-gray-100 rounded-lg p-2 md:p-3 hover:shadow-md transition-all duration-200 hover:border-gray-200">
 
                                                 {/* Enlace principal que cubre el área de contenido */}
                                                 <Link
                                                     to={`/grupos/${grupo.id_grupo}`}
-                                                    className="flex items-center flex-1 min-w-0 gap-4 cursor-pointer"
+                                                    className="flex items-center flex-1 min-w-0 gap-2 md:gap-4 cursor-pointer"
                                                 >
                                                     {/* Imagen Pequeña y Redondeada */}
-                                                    <div className="flex-shrink-0 h-16 w-16 bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
+                                                    <div className="flex-shrink-0 h-12 w-12 md:h-16 md:w-16 bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
                                                         {grupo.imagen_url ? (
                                                             <img
                                                                 src={grupo.imagen_url}
@@ -237,12 +237,12 @@ export default function GruposListAdmin() {
 
                                                     {/* Información */}
                                                     <div className="flex flex-col min-w-0">
-                                                        <h3 className="text-base font-semibold text-gray-800 truncate group-hover:text-red-700 transition-colors">
+                                                        <h3 className="text-sm md:text-base font-semibold text-gray-800 truncate group-hover:text-red-700 transition-colors">
                                                             {grupo.nombre}
                                                         </h3>
 
                                                         {/* Descripción truncada */}
-                                                        <p className="text-sm text-gray-500 truncate mt-0.5">
+                                                        <p className="text-xs md:text-sm text-gray-500 truncate mt-0.5">
                                                             {grupo.descripcion || "Sin descripción"}
                                                         </p>
 
@@ -259,12 +259,12 @@ export default function GruposListAdmin() {
                                                 </Link>
 
                                                 {/* Botones de Acción Minimalistas (Derecha) */}
-                                                <div className="flex items-center gap-1 pl-4 border-l border-gray-100 ml-2">
+                                                <div className="flex items-center gap-1 pl-2 md:pl-4 border-l border-gray-100 ml-1 md:ml-2">
 
                                                     {/* Editar */}
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleEdit(grupo.id_grupo); }}
-                                                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                                                        className="p-1.5 md:p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
                                                         title="Modificar"
                                                     >
                                                         <EditIcon />
@@ -274,7 +274,7 @@ export default function GruposListAdmin() {
                                                     {grupo.activo ? (
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handleDelete(grupo.id_grupo); }}
-                                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                                                            className="p-1.5 md:p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
                                                             title="Eliminar"
                                                         >
                                                             <TrashIcon />
@@ -282,7 +282,7 @@ export default function GruposListAdmin() {
                                                     ) : (
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handleActivar(grupo.id_grupo); }}
-                                                            className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors"
+                                                            className="p-1.5 md:p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors"
                                                             title="Reactivar"
                                                         >
                                                             <RestoreIcon />

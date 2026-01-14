@@ -122,34 +122,28 @@ export default function NoticiasUsuario() {
     <div className="min-h-screen flex bg-gray-100">
       <Sidebar />
       <div className="flex-1 flex flex-col md:ml-56">
-        <main className="pt-10 px-8 pb-12">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Noticias</h1>
-            <button
-              onClick={() => refetch}
-              className="px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-700 hover:bg-gray-50 transition text-sm"
-            >
-              Refrescar
-            </button>
+        <main className="pt-20 md:pt-10 px-4 md:px-8 pb-8 md:pb-12">
+          <div className="mb-4 md:mb-6">
+            <h1 className="text-xl md:text-3xl font-bold text-gray-800">Noticias</h1>
           </div>
 
           {/* Add Search Filters */}
-          <div className="mb-6">
+          <div className="mb-4 md:mb-6">
             <input
               type="text"
               placeholder="Buscar por título o descripción..."
-              className="px-4 py-2 border rounded-md w-full md:w-1/3"
+              className="px-3 md:px-4 py-2 border rounded-md w-full md:w-1/3 text-sm md:text-base"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
-          <div className="flex flex-wrap gap-4 items-center mb-6">
-            <label className="text-sm text-gray-600">Filtrar por fecha:</label>
+          <div className="flex flex-wrap gap-3 md:gap-4 items-center mb-4 md:mb-6">
+            <label className="text-xs md:text-sm text-gray-600">Filtrar por fecha:</label>
             <select
               value={filterYear}
               onChange={(e) => setFilterYear(e.target.value)}
-              className="px-3 py-2 border rounded-md w-24 bg-white"
+              className="px-2 md:px-3 py-1.5 md:py-2 border rounded-md w-20 md:w-24 bg-white text-sm"
             >
               <option value="">Año</option>
               {[...new Set<number>((noticias || []).map((n: Noticia) => new Date(n.fecha).getFullYear()))]
@@ -164,7 +158,7 @@ export default function NoticiasUsuario() {
             <select
               value={filterMonth}
               onChange={(e) => setFilterMonth(e.target.value)}
-              className="px-3 py-2 border rounded-md w-20 bg-white"
+              className="px-2 md:px-3 py-1.5 md:py-2 border rounded-md w-16 md:w-20 bg-white text-sm"
             >
               <option value="">Mes</option>
               {[...Array(12)].map((_, i) => {
@@ -180,7 +174,7 @@ export default function NoticiasUsuario() {
             <select
               value={filterDay}
               onChange={(e) => setFilterDay(e.target.value)}
-              className="px-3 py-2 border rounded-md w-20 bg-white"
+              className="px-2 md:px-3 py-1.5 md:py-2 border rounded-md w-16 md:w-20 bg-white text-sm"
             >
               <option value="">Día</option>
               {[...Array(31)].map((_, i) => {
@@ -194,8 +188,8 @@ export default function NoticiasUsuario() {
             </select>
           </div>
 
-          <div className="mb-6">
-            <p className="text-sm text-gray-600">
+          <div className="mb-4 md:mb-6">
+            <p className="text-xs md:text-sm text-gray-600">
               Mostrando <span className="font-semibold">{noticiasVisibles.length}</span> de{' '}
               <span className="font-semibold">{filteredNoticias.length}</span> noticias
               {(searchTerm || filterYear || filterMonth || filterDay) && (
@@ -225,7 +219,7 @@ export default function NoticiasUsuario() {
           {/* Grid de Noticias */}
           {!loading && !error && noticias.length > 0 && (
             <>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {noticiasVisibles.map((n: Noticia) => (
                   <article
                     key={n.id_noticia}
@@ -244,16 +238,16 @@ export default function NoticiasUsuario() {
                       <img
                         src={n.imagen_path.startsWith("http") ? n.imagen_path : n.imagen_path}
                         alt={n.titulo}
-                        className="w-full h-44 object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="w-full h-36 md:h-44 object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="w-full h-44 bg-gray-200 flex items-center justify-center text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                      <div className="w-full h-36 md:h-44 bg-gray-200 flex items-center justify-center text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm16.5-1.5H3.75V6H20.25v12z" />
                         </svg>
                       </div>
                     )}
-                    <div className="p-4">
+                    <div className="p-3 md:p-4">
                       <p className="text-xs text-gray-500 mb-1">
                         {new Date(n.fecha).toLocaleDateString()}
                       </p>
@@ -268,10 +262,10 @@ export default function NoticiasUsuario() {
                 ))}
               </div>
 
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 mt-8 md:mt-10">
                 {currentPage > 1 && (
                   <button
-                    className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md shadow-sm hover:bg-gray-50 transition"
+                    className="w-full sm:w-auto px-4 md:px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md shadow-sm hover:bg-gray-50 transition text-sm md:text-base"
                     onClick={handlePaginaAnterior}
                   >
                     &larr; Página Anterior
@@ -280,7 +274,7 @@ export default function NoticiasUsuario() {
 
                 {puedeCargarMasInline && (
                   <button
-                    className="px-6 py-2 bg-white border border-red-700 text-red-700 rounded-md shadow hover:bg-red-50 transition"
+                    className="w-full sm:w-auto px-4 md:px-6 py-2 bg-white border border-red-700 text-red-700 rounded-md shadow hover:bg-red-50 transition text-sm md:text-base"
                     onClick={handleCargarMas}
                   >
                     Cargar más... ({noticiasVisibles.length % NOTICIAS_POR_CARGA === 0 ? noticiasVisibles.length / NOTICIAS_POR_CARGA + 1 : Math.ceil(noticiasVisibles.length / NOTICIAS_POR_CARGA)}/{Math.ceil(Math.min(NOTICIAS_POR_PAGINA, noticias.length - startIndex) / NOTICIAS_POR_CARGA)})
@@ -289,7 +283,7 @@ export default function NoticiasUsuario() {
 
                 {currentPage < totalPages && estaMostrandoTodoEnPaginaActual && (
                   <button
-                    className="px-6 py-2 bg-red-700 border border-red-700 text-white rounded-md shadow hover:bg-red-800 transition"
+                    className="w-full sm:w-auto px-4 md:px-6 py-2 bg-red-700 border border-red-700 text-white rounded-md shadow hover:bg-red-800 transition text-sm md:text-base"
                     onClick={handlePaginaSiguiente}
                   >
                     Página Siguiente &rarr; ({currentPage}/{totalPages})

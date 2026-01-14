@@ -40,9 +40,9 @@ export default function EventosDisponiblesPage() {
       <Sidebar />
 
       <div className="flex-1 flex flex-col md:ml-56">
-        <main className="pt-10 px-8">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Eventos Disponibles</h1>
+        <main className="pt-20 md:pt-10 px-4 md:px-8">
+          <div className="flex justify-between items-center mb-4 md:mb-6">
+            <h1 className="text-xl md:text-3xl font-bold text-gray-800">Eventos Disponibles</h1>
           </div>
 
           {loading ? (

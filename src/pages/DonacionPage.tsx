@@ -70,25 +70,25 @@ export default function DonacionPage() {
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
       {/* Padding general */}
-      <div className="flex-1 p-6 md:p-10 md:ml-56">
+      <div className="flex-1 pt-20 md:pt-10 px-4 md:px-10 pb-6 md:pb-10 md:ml-56">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">
+          <div className="mb-6 md:mb-8 text-center">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 md:mb-3">
               Realizar Donación
             </h1>
-            <p className="text-gray-600 text-lg">
+            <p className="text-gray-600 text-base md:text-lg">
               Tu aporte hace posible nuestra misión. Gracias por tu generosidad.
             </p>
           </div>
 
           {/* Contenedor del formulario */}
-          <div className="bg-white p-8 md:p-10 rounded-xl shadow-lg border border-gray-200">
+          <div className="bg-white p-4 md:p-8 lg:p-10 rounded-xl shadow-lg border border-gray-200">
           {!preferenceId ? (
             // Formulario con 'space-y-6'
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               {/* Monto */}
               <div>
-                <label htmlFor="monto" className="block text-base font-semibold text-gray-800 mb-2">
+                <label htmlFor="monto" className="block text-sm md:text-base font-semibold text-gray-800 mb-2">
                   Monto de la donación ($)
                 </label>
                 <div className="relative">
@@ -103,20 +103,20 @@ export default function DonacionPage() {
                     min="1"
                     step="0.01"
                     placeholder="0.00"
-                    className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg shadow-sm text-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                    className="w-full pl-10 pr-4 py-2 md:py-3 border-2 border-gray-300 rounded-lg shadow-sm text-base md:text-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
                   />
                 </div>
               </div>
 
               {/* Información del destinatario (estilo caja azul de CrearEvento) */}
-              <div className="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4">
-                <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-3 md:p-4">
+                <div className="flex items-start gap-2 md:gap-3">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <div className="text-sm">
-                    <p className="font-semibold text-blue-900 mb-2">Información del destinatario:</p>
-                    <div className="space-y-1 text-blue-800">
+                  <div className="text-xs md:text-sm">
+                    <p className="font-semibold text-blue-900 mb-1 md:mb-2">Información del destinatario:</p>
+                    <div className="space-y-0.5 md:space-y-1 text-blue-800">
                       <p><span className="font-medium">Nombre:</span> Secretaría General - Instituto Misionero</p>
                       <p><span className="font-medium">Entidad:</span> Mercado Pago</p>
                       <p><span className="font-medium">Tipo de cuenta:</span> Cuenta Institucional</p>
@@ -127,7 +127,7 @@ export default function DonacionPage() {
 
               {/* Descripción */}
               <div>
-                <label htmlFor="descripcion" className="block text-base font-semibold text-gray-800 mb-2">
+                <label htmlFor="descripcion" className="block text-sm md:text-base font-semibold text-gray-800 mb-2">
                   Mensaje (opcional)
                 </label>
                 <textarea
@@ -136,14 +136,14 @@ export default function DonacionPage() {
                   value={descripcion}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescripcion(e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg shadow-sm resize-y focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                  className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-lg shadow-sm resize-y focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-sm md:text-base"
                   placeholder="Comparte un mensaje con tu donación (opcional)..."
                 />
               </div>
 
               {/* Grupo (opcional) */}
               <div>
-                <label htmlFor="idGrupo" className="block text-base font-semibold text-gray-800 mb-2">
+                <label htmlFor="idGrupo" className="block text-sm md:text-base font-semibold text-gray-800 mb-2">
                   Grupo al que donar (opcional)
                 </label>
                 <select
@@ -151,7 +151,7 @@ export default function DonacionPage() {
                   name="idGrupo"
                   value={idGrupo || ''}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setIdGrupo(e.target.value ? parseInt(e.target.value) : undefined)}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                  className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-sm md:text-base"
                 >
                   <option value="">Seleccionar grupo (opcional)</option>
                   {grupos.map((grupo) => (
@@ -174,7 +174,7 @@ export default function DonacionPage() {
                     </p>
                   </div>
                   <div>
-                    <label htmlFor="nombre" className="block text-base font-semibold text-gray-800 mb-2">
+                    <label htmlFor="nombre" className="block text-sm md:text-base font-semibold text-gray-800 mb-2">
                       Nombre completo
                     </label>
                     <input
@@ -183,12 +183,12 @@ export default function DonacionPage() {
                       value={nombre}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNombre(e.target.value)}
                       placeholder="Ingresa tu nombre"
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                      className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-sm md:text-base"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-base font-semibold text-gray-800 mb-2">
+                    <label htmlFor="email" className="block text-sm md:text-base font-semibold text-gray-800 mb-2">
                       Correo electrónico
                     </label>
                     <input
@@ -197,16 +197,16 @@ export default function DonacionPage() {
                       value={email}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                       placeholder="tu@email.com"
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                      className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-sm md:text-base"
                     />
                   </div>
                 </>
               {/* )} */}
 
-              <div className="flex justify-center pt-4">
+              <div className="flex justify-center pt-2 md:pt-4">
                 <LoadingButton
                   type="submit"
-                  className="w-full sm:w-auto px-10 py-4 bg-red-700 text-white text-lg font-bold rounded-lg shadow-lg hover:bg-red-800 hover:shadow-xl disabled:bg-red-400 transition-all transform hover:scale-105"
+                  className="w-full sm:w-auto px-6 md:px-10 py-3 md:py-4 bg-red-700 text-white text-base md:text-lg font-bold rounded-lg shadow-lg hover:bg-red-800 hover:shadow-xl disabled:bg-red-400 transition-all transform hover:scale-105"
                   loading={isLoading}
                   disabled={isLoading}
                 >
@@ -216,12 +216,12 @@ export default function DonacionPage() {
             </form>
           ) : (
             // --- Vista de Wallet/QR ---
-            <div className="text-center space-y-6">
-              <div className="bg-green-50 p-6 rounded-lg border border-green-200">
-                <h2 className="text-xl font-semibold text-green-800 mb-2">
+            <div className="text-center space-y-4 md:space-y-6">
+              <div className="bg-green-50 p-4 md:p-6 rounded-lg border border-green-200">
+                <h2 className="text-lg md:text-xl font-semibold text-green-800 mb-2">
                   Donación preparada
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-sm md:text-base text-gray-600">
                   Monto: <span className="font-bold">${parseFloat(monto).toFixed(2)}</span>
                 </p>
                 <p className="text-gray-600">

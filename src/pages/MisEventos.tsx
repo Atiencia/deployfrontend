@@ -15,7 +15,7 @@ export default function MisEventosPage() {
       <div className="min-h-screen flex bg-gray-100">
         <Sidebar />
         <div className="flex-1 flex flex-col md:ml-56">
-          <main className="pt-10 px-8">
+          <main className="pt-20 md:pt-10 px-4 md:px-8">
             <div className="flex justify-center items-center py-12">
               <LoadingSpinner />
             </div>
@@ -30,9 +30,9 @@ export default function MisEventosPage() {
       <div className="min-h-screen flex bg-gray-100">
         <Sidebar />
         <div className="flex-1 flex flex-col md:ml-56">
-          <main className="pt-10 px-8">
-            <h1 className="text-2xl font-bold text-gray-800 mb-6">
-              Mis eventos
+          <main className="pt-20 md:pt-10 px-4 md:px-8">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">
+              Mis Eventos
             </h1>
             <ErrorState
               message={error.message}
@@ -49,10 +49,8 @@ export default function MisEventosPage() {
       <Sidebar />
 
       <div className="flex-1 flex flex-col md:ml-56">
-        <main className="pt-10 px-8">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Mis Eventos</h1>
-          </div>
+        <main className="pt-20 md:pt-10 px-4 md:px-8">
+          <h1 className="text-xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-6">Mis Eventos</h1>
 
           {loading ? (
             <div className="flex justify-center items-center py-12">
@@ -63,21 +61,21 @@ export default function MisEventosPage() {
               <p className="text-red-500">{error}</p>
             </div>
           ) : eventos?.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-lg shadow-lg p-10">
+            <div className="text-center py-8 md:py-12 bg-white rounded-lg shadow-lg p-6 md:p-10">
               <div className="max-w-md mx-auto">
                 {/* Icono */}
-                <div className="mb-6">
-                  <svg className="w-24 h-24 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mb-4 md:mb-6">
+                  <svg className="w-20 h-20 md:w-24 md:h-24 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
                 
                 {/* Mensaje principal */}
-                <h2 className="text-2xl font-bold text-gray-800 mb-3">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-3">
                   No estás inscrito a ningún evento
                 </h2>
                 
-                <p className="text-gray-600 mb-6">
+                <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
                   Explora los eventos disponibles y únete a las actividades que más te interesen.
                 </p>
                 

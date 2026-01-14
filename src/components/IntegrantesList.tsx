@@ -18,7 +18,7 @@ export default function IntegrantesList() {
         return (
             <div className="flex min-h-screen bg-gray-50">
                 <Sidebar />
-                <main className="flex-1 ml-56 p-8 flex items-center justify-center">
+                <main className="flex-1 md:ml-56 pt-20 md:pt-8 px-4 md:px-8 flex items-center justify-center">
                     <LoadingSpinner size="lg" message="Cargando integrantes..." />
                 </main>
             </div>
@@ -29,7 +29,7 @@ export default function IntegrantesList() {
         return (
             <div className="flex min-h-screen bg-gray-50">
                 <Sidebar />
-                <main className="flex-1 ml-56 p-8">
+                <main className="flex-1 md:ml-56 pt-20 md:pt-8 px-4 md:px-8">
                     <p className="text-red-500">{errorGrupo?.message || errorMiembros?.message}</p>
                 </main>
             </div>
@@ -40,7 +40,7 @@ export default function IntegrantesList() {
         return (
             <div className="flex min-h-screen bg-gray-50">
                 <Sidebar />
-                <main className="flex-1 ml-56 p-8">
+                <main className="flex-1 md:ml-56 pt-20 md:pt-8 px-4 md:px-8">
                     <p className="text-gray-500">No se encontró el grupo</p>
                 </main>
             </div>
@@ -51,24 +51,24 @@ export default function IntegrantesList() {
         <>
             <div className="flex min-h-screen bg-gray-50">
                 <Sidebar />
-                <main className="flex-1 ml-56 p-8">
-                    <div className="p-4 max-w-4xl mx-auto space-y-8">
+                <main className="flex-1 md:ml-56 pt-20 md:pt-8 px-4 md:px-8 pb-8">
+                    <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
                         <div
                             style={{ backgroundImage: `url(${grupo.imagen_url})` }}
-                            className="h-24 bg-cover bg-center rounded-xl mb-6 shadow-lg "
+                            className="h-20 md:h-24 bg-cover bg-center rounded-xl shadow-lg"
                         >
-                            <div className="bg-red-700/60 h-full flex items-center justify-end p-2 w-full rounded-xl">
-                                <h2 className="text-white text-3xl font-semibold">{grupo.nombre}</h2>
+                            <div className="bg-red-700/60 h-full flex items-center justify-end px-3 md:px-4 w-full rounded-xl">
+                                <h2 className="text-white text-xl md:text-3xl font-semibold">Expokids</h2>
                             </div>
                         </div>
 
                         <div>
-                            <h3 className="text-3xl font-bold text-gray-800 mb-8 ">Miembros</h3>
+                            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-8">Miembros</h3>
 
                             {miembros && miembros.length === 0 ? (
-                                <p className="text-gray-500 italic text-center">Aun no tenemos miembros. Se el primero!</p>
+                                <p className="text-sm md:text-base text-gray-500 italic text-center">Aun no tenemos miembros. Se el primero!</p>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                                     {miembros.map((miembro: User) => (
                                         <IntegrantesCard key={miembro.id_usuario} grupo_id={grupo.id_grupo} usuario= {miembro}/>
                                     ))}
@@ -97,18 +97,18 @@ function IntegrantesCard({ usuario, grupo_id }: any) {
     }
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full">
+        <div className="bg-white rounded-xl border border-gray-200 p-3 md:p-4 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4 w-full">
 
             {/* Datos del usuario */}
-            <div className="flex items-center gap-3 overflow-hidden">
+            <div className="flex items-center gap-2 md:gap-3 overflow-hidden">
                 {/* Avatar */}
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-red-100 flex items-center justify-center text-red-500 font-bold text-lg shrink-0">
+                <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-red-100 flex items-center justify-center text-red-500 font-bold text-base md:text-lg shrink-0">
                     {usuario?.nombre.charAt(0).toUpperCase()}{usuario?.apellido.charAt(0).toUpperCase()}
                 </div>
 
                 {/* Textos con 'truncate' para que si el email es gigante no rompa todo */}
                 <div className="min-w-0">
-                    <h3 className="font-semibold text-gray-900 truncate">
+                    <h3 className="text-sm md:text-base font-semibold text-gray-900 truncate">
                         {usuario?.nombre} {usuario?.apellido}
                     </h3>
                     <p className="text-sm text-gray-500 truncate">{usuario?.email}</p>
@@ -122,9 +122,9 @@ function IntegrantesCard({ usuario, grupo_id }: any) {
                     <>
                         <button
                             onClick={handleEliminarMiembro}
-                            className="flex-1 sm:flex-none px-3 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-300 shadow-sm transition-colors"
+                            className="flex-1 sm:flex-none px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 shadow-sm transition-colors"
                         >
-                            Eliminar miembro
+                            Eliminar como miembro
                         </button>
                     </>
                 ) : (
