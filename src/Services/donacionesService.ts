@@ -132,15 +132,23 @@ export const obtenerDonaciones = async (rolUsuario: number) => {
     } else if (rolUsuario === 1 || rolUsuario === 2) {
         endpoint = '/api/donaciones/todas'; // Admin y superadmin ven todas
     } else if (rolUsuario === 4) {
-        endpoint = '/api/donaciones/filtradas'; // Secretaria filtra
+        endpoint = '/api/donaciones/todas'; // Secretaria General ve todas
+    } else if (rolUsuario === 5) {
+        endpoint = '/api/donaciones/por-grupo'; // Secretaria Grupal ve solo de su grupo
     }
 
     const response = await fetch(`${BASE_URL}${endpoint.replace('/api', '')}`, {
         credentials: 'include',
     });
 
-    if (!response.ok) throw new Error(`Error al obtener donaciones: ${response.statusText}`)
-
+    if (!response.ok) {
+        // Si es error 500 en por-grupo, probablemente no tiene grupo asignado
+        if (response.status === 500 && rolUsuario === 5) {
+            console.error('Error: El usuario no tiene un grupo asignado o hay un problema en el backend');
+            return []; // Retornar array vacío en lugar de error
+        }
+        throw new Error(`Error al obtener donaciones: ${response.statusText}`)
+    }
 
     const data = await response.json()
 

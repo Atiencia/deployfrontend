@@ -1,6 +1,6 @@
 //pagina para hacer el listado de donaciones
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import lupa from "../assets/search.png";
 import Sidebar from "../components/Sidebar";
@@ -9,6 +9,8 @@ import { useDonaciones } from "../queries/donacionesQueries";
 import { useAtomValue } from "jotai";
 import { userRolAtom } from "../store/jotaiStore";
 import { LoadingSpinner, ErrorState } from "../components/LoadingComponents";
+import { obtenerGrupos } from "../Services/grupoService";
+import type { grupo } from "../../types/evento";
 
 interface Donacion {
     id_donacion: number;
@@ -21,6 +23,8 @@ interface Donacion {
     fecha_donacion: string;
     estado: 'pendiente' | 'aprobado' | 'rechazado';
     comprobante_url?: string;
+    nombre_grupo?: string;
+    id_grupo?: number;
 }
 
 interface DonacionItemProps {
@@ -46,6 +50,9 @@ function DonacionItem({ donacion }: DonacionItemProps) {
                     <div>
                         <p className="text-xs text-gray-500">ID: {donacion.id_donacion}</p>
                         <p className="font-semibold text-base">{donacion.nombre} {donacion.apellido}</p>
+                        {donacion.nombre_grupo && (
+                            <p className="text-xs text-blue-600 mt-1">Grupo: {donacion.nombre_grupo}</p>
+                        )}
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
                         donacion.estado === 'aprobado' ? 'bg-green-100 text-green-700' :
@@ -68,9 +75,10 @@ function DonacionItem({ donacion }: DonacionItemProps) {
             </div>
 
             {/* Vista desktop - Tabla */}
-            <div className="hidden md:grid grid-cols-5 gap-4 p-4 hover:bg-gray-50 transition-colors rounded-lg text-sm border-b border-gray-100">
+            <div className="hidden md:grid grid-cols-6 gap-4 p-4 hover:bg-gray-50 transition-colors rounded-lg text-sm border-b border-gray-100">
                 <p className="font-medium">{donacion.id_donacion}</p>
                 <p className="truncate">{donacion.nombre} {donacion.apellido}</p>
+                <p className="truncate text-blue-600">{donacion.nombre_grupo || '-'}</p>
                 <p className="font-semibold text-green-600">${donacion.monto}</p>
                 <p>{new Date(donacion.fecha_donacion).toLocaleDateString('es-AR')}</p>
                 <p className={`capitalize font-medium ${getEstadoColor(donacion.estado)}`}>
@@ -87,14 +95,34 @@ export default function DonacionesListPage() {
     const isMisDonaciones = location.pathname === '/donaciones/mis-donaciones';
     const [filtroGrupo, setFiltroGrupo] = useState("");
     const [filtroFecha, setFiltroFecha] = useState("");
+    const [grupos, setGrupos] = useState<grupo[]>([]);
     const rolUsuario = useAtomValue(userRolAtom)
 
     const { data: donaciones = [], isLoading: loading, error, refetch } = useDonaciones(rolUsuario)
 
-    // Filtra las donaciones basándose en la búsqueda
-    const donacionesFiltradas = donaciones.filter((d: Donacion) =>
-        `${d.nombre} ${d.apellido}`.toLowerCase().includes(busqueda.toLowerCase())
-    );
+    // Cargar grupos para el filtro
+    useEffect(() => {
+        const fetchGrupos = async () => {
+            try {
+                const gruposData = await obtenerGrupos();
+                setGrupos(gruposData);
+            } catch (error) {
+                console.error('Error al cargar grupos:', error);
+            }
+        };
+        // Solo cargar grupos si no es "Mis Donaciones"
+        if (!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2 || rolUsuario === 4 || rolUsuario === 5)) {
+            fetchGrupos();
+        }
+    }, [isMisDonaciones, rolUsuario]);
+
+    // Filtra las donaciones basándose en la búsqueda, grupo y fecha
+    const donacionesFiltradas = donaciones.filter((d: Donacion) => {
+        const matchBusqueda = `${d.nombre} ${d.apellido}`.toLowerCase().includes(busqueda.toLowerCase());
+        const matchGrupo = !filtroGrupo || (d.nombre_grupo && d.nombre_grupo.toLowerCase().includes(filtroGrupo.toLowerCase()));
+        const matchFecha = !filtroFecha || new Date(d.fecha_donacion).toISOString().split('T')[0] === filtroFecha;
+        return matchBusqueda && matchGrupo && matchFecha;
+    });
 
     /*
     const [rolUsuario, setRolUsuario] = useState<number>(null as unknown as number);
@@ -183,9 +211,9 @@ export default function DonacionesListPage() {
                     {/* Encabezado */}
                     <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
                         <h1 className="text-2xl md:text-3xl font-bold text-black">
-                            {isMisDonaciones ? 'Mis Donaciones' : 'Gestión de Donaciones'}
+                            {isMisDonaciones ? 'Mis Donaciones' : rolUsuario === 5 ? 'Donaciones del Grupo' : 'Gestión de Donaciones'}
                         </h1>
-                        {!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2) && (
+                        {!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2 || rolUsuario === 4 || rolUsuario === 5) && (
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <div className="bg-green-100 p-4 rounded-lg">
                                     <p className="text-green-800 font-semibold text-sm md:text-base">Total Aprobado</p>
@@ -197,22 +225,6 @@ export default function DonacionesListPage() {
                                     <p className="text-purple-800 font-semibold text-sm md:text-base">Total Donantes</p>
                                     <p className="text-xl md:text-2xl font-bold">
                                         {new Set(donaciones.filter((d: Donacion) => d.estado === 'aprobado').map((d: Donacion) => d.id_usuario)).size}
-                                    </p>
-                                </div>
-                            </div>
-                        )}
-                        {!isMisDonaciones && rolUsuario === 4 && (
-                            <div className="flex gap-4">
-                                <div className="bg-green-100 p-4 rounded-lg">
-                                    <p className="text-green-800 font-semibold">Total Aprobado</p>
-                                    <p className="text-2xl font-bold">
-                                        ${(donaciones.filter((d: Donacion) => d.estado === 'aprobado').reduce((sum: number, d: Donacion) => sum + (Number(d.monto) || 0), 0)).toFixed(2)}
-                                    </p>
-                                </div>
-                                <div className="bg-yellow-100 p-4 rounded-lg">
-                                    <p className="text-yellow-800 font-semibold">Pendientes</p>
-                                    <p className="text-2xl font-bold">
-                                        {donaciones.filter((d: Donacion) => d.estado === 'pendiente').length}
                                     </p>
                                 </div>
                             </div>
@@ -237,21 +249,30 @@ export default function DonacionesListPage() {
                                 type="date" 
                                 value={filtroFecha} 
                                 onChange={(e) => setFiltroFecha(e.target.value)} 
-                                className="p-2 border rounded text-sm w-full md:w-auto" 
+                                className="p-2 border rounded text-sm w-full md:w-auto"
+                                placeholder="Filtrar por fecha"
                             />
-                            <input 
-                                type="text" 
-                                placeholder="Filtrar por grupo" 
-                                value={filtroGrupo} 
-                                onChange={(e) => setFiltroGrupo(e.target.value)} 
-                                className="p-2 border rounded text-sm w-full md:w-auto" 
-                            />
+                            {!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2 || rolUsuario === 4) && (
+                                <select 
+                                    value={filtroGrupo} 
+                                    onChange={(e) => setFiltroGrupo(e.target.value)} 
+                                    className="p-2 border rounded text-sm w-full md:w-auto"
+                                >
+                                    <option value="">Todos los grupos</option>
+                                    {grupos.map((grupo) => (
+                                        <option key={grupo.id_grupo} value={grupo.nombre}>
+                                            {grupo.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
                         </div>
 
                         {/* Encabezados de la tabla - Solo visible en desktop */}
-                        <div className="hidden md:grid grid-cols-5 gap-4 font-bold p-4 bg-gray-50 rounded-lg mb-4 text-sm">
+                        <div className="hidden md:grid grid-cols-6 gap-4 font-bold p-4 bg-gray-50 rounded-lg mb-4 text-sm">
                             <p>ID</p>
                             <p>Donador</p>
+                            <p>Grupo</p>
                             <p>Monto</p>
                             <p>Fecha</p>
                             <p>Estado</p>
@@ -266,8 +287,8 @@ export default function DonacionesListPage() {
                             )}
                         </div>
 
-                        {/* Estadísticas generales para secretaria */}
-                        {!isMisDonaciones && rolUsuario === 4 && (
+                        {/* Estadísticas generales para admin, sec general y sec grupal */}
+                        {!isMisDonaciones && (rolUsuario === 1 || rolUsuario === 2 || rolUsuario === 4 || rolUsuario === 5) && (
                             <div className="mt-8 pt-6 border-t">
                                 <h3 className="text-lg font-semibold mb-4">Estadísticas Generales</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
