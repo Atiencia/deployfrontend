@@ -17,6 +17,7 @@ interface FiltroDonaciones {
 }
 
 import { API_URL as BASE_URL } from '../config/api';
+import { axiosInstance } from '../config/axiosConfig';
 
 export const donacionesService = {
     // Obtener todas las donaciones con filtros
@@ -105,55 +106,47 @@ export const donacionesService = {
 };
 
 export type { Donacion, FiltroDonaciones };
+
 export const crearPreferenciaDonacion = async ({ monto, descripcion, id_grupo, email, nombre }: { monto: string, descripcion: string, id_grupo?: number, email?: string, nombre?: string }) => {
-    const response = await fetch(`${BASE_URL}/donaciones/crear_preferencia_donacion`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
+    try {
+        const response = await axiosInstance.post('/donaciones/crear_preferencia_donacion', {
             monto,
             descripcion,
             id_grupo,
             email,
             nombre
-        })
-    })
+        });
 
-    if (!response.ok) throw new Error(`Error al crear la preferencia: ${response.statusText}`)
-    const data = await response.json()
-    console.log("SI SE CREO LA PREFERENCIA CORRECTAMENTE ", data);
-
-    return data
+        console.log("SI SE CREO LA PREFERENCIA CORRECTAMENTE ", response.data);
+        return response.data;
+    } catch (error: any) {
+        console.error("Error al crear preferencia de donación:", error);
+        throw new Error(error.response?.data?.error || 'Error al crear la preferencia');
+    }
 }
 
 export const obtenerDonaciones = async (rolUsuario: number) => {
-    let endpoint = '/api/donaciones/mis-donaciones'; // Default para usuarios
+    let endpoint = '/donaciones/mis-donaciones'; // Default para usuarios
 
     if (rolUsuario === 3) {
-        endpoint = '/api/donaciones/mis-donaciones';
+        endpoint = '/donaciones/mis-donaciones';
     } else if (rolUsuario === 1 || rolUsuario === 2) {
-        endpoint = '/api/donaciones/todas'; // Admin y superadmin ven todas
+        endpoint = '/donaciones/todas'; // Admin y superadmin ven todas
     } else if (rolUsuario === 4) {
-        endpoint = '/api/donaciones/todas'; // Secretaria General ve todas
+        endpoint = '/donaciones/todas'; // Secretaria General ve todas
     } else if (rolUsuario === 5) {
-        endpoint = '/api/donaciones/por-grupo'; // Secretaria Grupal ve solo de su grupo
+        endpoint = '/donaciones/por-grupo'; // Secretaria Grupal ve solo de su grupo
     }
 
-    const response = await fetch(`${BASE_URL}${endpoint.replace('/api', '')}`, {
-        credentials: 'include',
-    });
-
-    if (!response.ok) {
+    try {
+        const response = await axiosInstance.get(endpoint);
+        return response.data;
+    } catch (error: any) {
         // Si es error 500 en por-grupo, probablemente no tiene grupo asignado
-        if (response.status === 500 && rolUsuario === 5) {
+        if (error.response?.status === 500 && rolUsuario === 5) {
             console.error('Error: El usuario no tiene un grupo asignado o hay un problema en el backend');
             return []; // Retornar array vacío en lugar de error
         }
-        throw new Error(`Error al obtener donaciones: ${response.statusText}`)
+        throw new Error(error.response?.data?.error || 'Error al obtener donaciones');
     }
-
-    const data = await response.json()
-
-    return data
-
 }
