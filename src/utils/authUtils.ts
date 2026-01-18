@@ -3,6 +3,7 @@ export const clearAuthData = () => {
   // Limpiar localStorage
   localStorage.removeItem('userRol');
   localStorage.removeItem('userName');
+  localStorage.removeItem('userEmail');
   localStorage.removeItem('authToken'); // ← Nuevo: limpiar token
   
   // Limpiar sessionStorage por si acaso

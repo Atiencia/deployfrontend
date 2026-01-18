@@ -35,6 +35,23 @@ export default function DonacionPage() {
     fetchGrupos();
   }, []);
 
+  // Autocompletar campos si el usuario está logueado
+  useEffect(() => {
+    const userRol = localStorage.getItem('userRol');
+    const userName = localStorage.getItem('userName');
+    const userEmail = localStorage.getItem('userEmail');
+    
+    // Si el usuario está autenticado (rol > 0), autocompletar los campos
+    if (userRol && parseInt(userRol) > 0) {
+      if (userName) {
+        setNombre(userName);
+      }
+      if (userEmail) {
+        setEmail(userEmail);
+      }
+    }
+  }, []);
+
   // Check if user is authenticated
   //const isAuthenticated = localStorage.getItem('userRol') && parseInt(localStorage.getItem('userRol')!) > 0;
   const { mutate: crearPreferencia, isPending: isLoading } = useCrearPreferenciaDonacion(

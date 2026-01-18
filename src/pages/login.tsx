@@ -44,6 +44,7 @@ export default function Login() {
       setUserRol(data.rol)
       localStorage.setItem('userRol', data.rol.toString());
       localStorage.setItem('userName', data.nombre);
+      localStorage.setItem('userEmail', username); // Guardar email para autocompletar donaciones
       clearAllCache();
       navigate('/home')
     },
