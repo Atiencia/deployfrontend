@@ -74,11 +74,12 @@ export default function DonacionPage() {
       return;
     }
 
-    // if (!isAuthenticated && (!email || !nombre)) {
-    //   toast.error('Por favor ingrese su email y nombre para donaciones sin autenticación');
-    //   return;
-    // }
-    crearPreferencia({ monto, descripcion, id_grupo: idGrupo })
+    if (!email || !nombre) {
+      toast.error('Por favor ingrese su email y nombre');
+      return;
+    }
+
+    crearPreferencia({ monto, descripcion, id_grupo: idGrupo, email, nombre })
   };
 
 

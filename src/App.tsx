@@ -134,11 +134,8 @@ export default function App() {
           </ProtectedRoute>
         } />
         <Route path="/donaciones/donar" element={<DonacionPage />} />
-        <Route path="/donaciones/exito" element={
-          <ProtectedRoute requireAuth={true}>
-            <PagoExitoDonacion />
-          </ProtectedRoute>
-        } />
+        <Route path="/donaciones/exito" element={<PagoExitoDonacion />} />
+        <Route path="/pago-exito-donacion" element={<PagoExitoDonacion />} />
         <Route path="/donadores" element={
           <ProtectedRoute requireAuth={true}>
             <DonadoresListPage />

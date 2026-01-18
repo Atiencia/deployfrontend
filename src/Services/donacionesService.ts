@@ -105,7 +105,7 @@ export const donacionesService = {
 };
 
 export type { Donacion, FiltroDonaciones };
-export const crearPreferenciaDonacion = async ({ monto, descripcion, id_grupo }: { monto: string, descripcion: string, id_grupo?: number }) => {
+export const crearPreferenciaDonacion = async ({ monto, descripcion, id_grupo, email, nombre }: { monto: string, descripcion: string, id_grupo?: number, email?: string, nombre?: string }) => {
     const response = await fetch(`${BASE_URL}/donaciones/crear_preferencia_donacion`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -114,6 +114,8 @@ export const crearPreferenciaDonacion = async ({ monto, descripcion, id_grupo }:
             monto,
             descripcion,
             id_grupo,
+            email,
+            nombre
         })
     })
 
