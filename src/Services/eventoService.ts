@@ -157,9 +157,7 @@ export const crearEvento = async (evento: CreateEventoRequest) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({
-      evento
-    })
+    body: JSON.stringify(evento)
   });
 
   if (!eventoRes.ok) {
