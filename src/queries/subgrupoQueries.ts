@@ -101,9 +101,10 @@ export function useInscribirUsuarioSubevento(eventoId: number) {
                 toast.success('¡Inscripción exitosa como titular! ✅');
             }
 
+            // Redirigir inmediatamente después de mostrar el toast
             setTimeout(() => {
                 navigate('/mis-eventos');
-            }, 5500); // Dar tiempo al toast
+            }, 1800); // Tiempo suficiente para leer el toast
 
         },
         onError: (error) => {

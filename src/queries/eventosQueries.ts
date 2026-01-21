@@ -40,6 +40,9 @@ export function useMisEventos() {
     return useQuery({
         queryKey: ['misEventos'],
         queryFn: obtenerMisEventos,
+        // Prevenir refetch automático en segundo plano para evitar parpadeos
+        refetchOnWindowFocus: false,
+        staleTime: 30000, // 30 segundos - los datos permanecen frescos
     })
 }
 
@@ -47,6 +50,9 @@ export function useEventosDisponibles() {
     return useQuery({
         queryKey: ['eventosDisponibles'],
         queryFn: obtenerEventosDisponibles,
+        // Prevenir refetch automático en segundo plano
+        refetchOnWindowFocus: false,
+        staleTime: 30000, // 30 segundos
     })
 }
 
@@ -194,9 +200,10 @@ export function useInscribirUsuario() {
                 toast.success('¡Inscripción exitosa como titular! ✅');
             }
 
+            // Redirigir inmediatamente después de mostrar el toast
             setTimeout(() => {
                 navigate('/mis-eventos');
-            }, 5500); // Dar tiempo al toast
+            }, 1800); // Tiempo suficiente para leer el toast
         },
         onError: (error) => {
             toast.error('No se pudo inscribir a este evento', { description: error.message })
@@ -218,7 +225,10 @@ export function useDetallesInscripcion(eventoId: number) {
     return useQuery({
         queryKey: ['detallesInscripcion', 'id', eventoId],
         queryFn: () => obtenerDetallesInscripcion(eventoId),
-        enabled: !!eventoId
+        enabled: !!eventoId,
+        // Prevenir refetch automático en segundo plano para evitar transiciones extrañas
+        refetchOnWindowFocus: false,
+        staleTime: 30000, // 30 segundos - los datos permanecen frescos
     })
 }
 

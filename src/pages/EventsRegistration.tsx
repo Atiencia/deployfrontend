@@ -99,6 +99,7 @@ export default function EventsRegistration() {
 
 
   const [estaInscrito, setEstaInscrito] = useState<boolean>(false);
+  const [inscripcionEnProceso, setInscripcionEnProceso] = useState<boolean>(false);
 
 
   const seraInscritoComoSuplente = useMemo(() => {
@@ -241,7 +242,8 @@ export default function EventsRegistration() {
   const haySuplentesDisponibles = (event.suplentes_disponibles ?? 0) > 0;
 
   // Redirigir SOLO si NO hay cupos titulares NI cupos de suplente Y el usuario no está inscrito
-  if (sinCuposTitulares && !haySuplentesDisponibles && !estaInscrito) {
+  // Y no está en proceso de inscripción (para evitar mostrar esta pantalla durante la transición)
+  if (sinCuposTitulares && !haySuplentesDisponibles && !estaInscrito && !inscripcionEnProceso) {
     return (
       <>
         <div className="max-w-3xl mx-auto p-6">
@@ -272,8 +274,8 @@ export default function EventsRegistration() {
     );
   }
 
-  // Solo redirigir si la fecha venció Y el usuario no está inscrito
-  if (fechaLimiteVencida && !estaInscrito) {
+  // Solo redirigir si la fecha venció Y el usuario no está inscrito Y no está procesando inscripción
+  if (fechaLimiteVencida && !estaInscrito && !inscripcionEnProceso) {
     return (
       <div className="max-w-3xl mx-auto p-6">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
@@ -316,6 +318,8 @@ export default function EventsRegistration() {
     if (Object.keys(newErrors).length > 0) return;
 
     try {
+      // Marcar que la inscripción está en proceso para evitar re-renders con pantallas intermedias
+      setInscripcionEnProceso(true);
 
       form_data.subgrupo && subgrupos ?
         //si es una inscripcion de subgrupos usamos el servicio de subgrupos para inscribir al usuario.
@@ -338,20 +342,16 @@ export default function EventsRegistration() {
           nombreRemitente: event?.categoria === 'pago' ? form_data.nombreRemitente : undefined,
         });
 
-      //const inscritoComoSuplente = data.message?.includes('SUPLENTE');
-
+      // Marcar como inscrito localmente para prevenir re-renders extraños
       setEstaInscrito(true);
 
-      /*if (inscritoComoSuplente) {
-        toast.success('¡Inscripción exitosa en la lista de espera! 📋');
-      } else {
-        toast.success('¡Inscripción exitosa como titular! ✅');
-      }*/
-
-      // 5. Navegar después del toast
+      // NOTA: El toast ya se muestra en las queries (eventosQueries o subgrupoQueries)
+      // por lo que no necesitamos mostrarlo aquí nuevamente
+      
+      // Redirigir después de un breve delay para que el toast sea visible
       setTimeout(() => {
         navigate('/mis-eventos');
-      }, 1500); // 1.5 segundos para que el toast se lea
+      }, 1800); // Tiempo suficiente para leer el toast
 
     } catch (error: any) {
       // 6. ¡ERROR! La mutación falló.
