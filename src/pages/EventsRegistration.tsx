@@ -342,20 +342,45 @@ export default function EventsRegistration() {
           nombreRemitente: event?.categoria === 'pago' ? form_data.nombreRemitente : undefined,
         });
 
-      // Marcar como inscrito localmente para prevenir re-renders extraños
-      setEstaInscrito(true);
-
-      // NOTA: El toast ya se muestra en las queries (eventosQueries o subgrupoQueries)
-      // por lo que no necesitamos mostrarlo aquí nuevamente
+      // Determinar si fue inscrito como suplente basándonos en la respuesta
+      // Esto evita mostrar pantallas incorrectas mientras se recargan los datos
+      const inscritoComoSuplente = form_data.subgrupo && subgrupos 
+        ? false // Se determinará con el refetch de detalles
+        : (event.cupos_disponibles ?? 0) === 0 && (event.suplentes_disponibles ?? 0) > 0;
       
-      // Redirigir después de un breve delay para que el toast sea visible
+      // Actualizar estados locales basándonos en la lógica de inscripción
+      setEstaInscrito(true);
+      setEsSuplente(inscritoComoSuplente);
+      setInscripcionEnProceso(false);
+      
+      // Limpiar toasts previos y mostrar único toast de éxito
+      toast.dismiss(); // Elimina cualquier toast anterior
+      
+      if (inscritoComoSuplente) {
+        toast.success('¡Inscripción exitosa en la lista de espera!', {
+          id: `inscripcion-${event.id_evento}`, // ID único para evitar duplicados
+          description: 'En 5 segundos serás redirigido a Mis Eventos',
+          duration: 5000
+        });
+      } else {
+        toast.success('¡Inscripción exitosa como titular!', {
+          id: `inscripcion-${event.id_evento}`, // ID único para evitar duplicados
+          description: 'En 5 segundos serás redirigido a Mis Eventos',
+          duration: 5000
+        });
+      }
+      
+      // Las queries se invalidarán y actualizarán los datos correctos automáticamente
+      
+      // Redirigir a "Mis Eventos" después de 5 segundos
       setTimeout(() => {
         navigate('/mis-eventos');
-      }, 1800); // Tiempo suficiente para leer el toast
+      }, 5000); // 5 segundos
 
     } catch (error: any) {
       // 6. ¡ERROR! La mutación falló.
       //    React Query pasa el error al 'catch'.
+      setInscripcionEnProceso(false); // Restablecer el estado de proceso
       if (error.message?.includes('ya está inscrito')) {
         setEstaInscrito(true); // También es un "éxito" en cierto modo
         toast.warning('Ya estabas inscrito en este evento.');

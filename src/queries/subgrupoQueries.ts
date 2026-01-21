@@ -92,19 +92,7 @@ export function useInscribirUsuarioSubevento(eventoId: number) {
                 qc.invalidateQueries({ queryKey: ['verificarInscripcion', 'id', eventoId] }),
                 qc.invalidateQueries({ queryKey: ['estadisticas', 'evento', eventoId] }),
             ])
-
-            const inscritoComoSuplente = data.message?.includes('SUPLENTE');
-
-            if (inscritoComoSuplente) {
-                toast.success('¡Inscripción exitosa en la lista de espera! 📋');
-            } else {
-                toast.success('¡Inscripción exitosa como titular! ✅');
-            }
-
-            // Redirigir inmediatamente después de mostrar el toast
-            setTimeout(() => {
-                navigate('/mis-eventos');
-            }, 1800); // Tiempo suficiente para leer el toast
+            // No mostrar toast aquí para evitar duplicados - se muestra en el componente
 
         },
         onError: (error) => {

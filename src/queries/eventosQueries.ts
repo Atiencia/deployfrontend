@@ -192,18 +192,7 @@ export function useInscribirUsuario() {
                 qc.invalidateQueries({ queryKey: ['suplentes', 'evento', parseInt(data.eventoId)] }),
                 qc.invalidateQueries({ queryKey: ['detallesInscripcion', 'id', parseInt(data.eventoId)] }),
             ]);
-            const inscritoComoSuplente = data.message?.includes('suplente');
-
-            if (inscritoComoSuplente) {
-                toast.success('¡Inscripción exitosa en la lista de espera! 📋');
-            } else {
-                toast.success('¡Inscripción exitosa como titular! ✅');
-            }
-
-            // Redirigir inmediatamente después de mostrar el toast
-            setTimeout(() => {
-                navigate('/mis-eventos');
-            }, 1800); // Tiempo suficiente para leer el toast
+            // No mostrar toast aquí para evitar duplicados - se muestra en el componente
         },
         onError: (error) => {
             toast.error('No se pudo inscribir a este evento', { description: error.message })

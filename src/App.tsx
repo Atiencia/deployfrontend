@@ -54,7 +54,7 @@ export default function App() {
   //considerar implementar el lazy loading para estas paginas
   return (
     <>
-      <Toaster position="top-right" richColors expand={false} />
+      <Toaster position="top-right" richColors expand={false} closeButton />
       <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
