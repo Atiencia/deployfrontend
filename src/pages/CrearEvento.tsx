@@ -183,7 +183,9 @@ export default function CrearEvento() {
         fecha_limite_inscripcion: form.fechaLimiteInscripcion || undefined, // Ya es Date
         fecha_limite_baja: form.fechaLimiteBaja || undefined,// Ya es Date,
         formSubgrupos: usarSubgrupos ? formSubgrupos : [],
-        id_grupo: form.grupo  === '' ? grupos![0].id_grupo.toString() : '0'
+        // CreateEventoRequest exige id_grupo como string
+        // Si hay grupo seleccionado se envía su id, si no, cadena vacía
+        id_grupo: form.grupo || ""
       };
 
       // Lógica IF/ELSE para llamar a la mutación correcta

@@ -118,6 +118,8 @@ export const loginService = async ({ username: username, password: password }: {
   });
 
   const data = await response.json();
+  console.log('🔍 Respuesta del backend en login:', data);
+  console.log('🔍 ¿Tiene token?', data.token ? 'SÍ' : 'NO');
 
   if (!response.ok) {
     console.error(data.message)

@@ -2,6 +2,7 @@ import axios from "axios";
 import type { CreateEventoRequest, EditarEventoRequest, evento, inscripcionEventoRequest } from '../../types/evento';
 import type { Inscripto } from '../../types/Inscripto';
 import { API_URL as BASE_API_URL } from '../config/api';
+import { getAuthToken } from '../utils/authUtils';
 
 const API_URL = `${BASE_API_URL}/eventos`;
 
@@ -157,7 +158,7 @@ export const crearEvento = async (evento: CreateEventoRequest) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify(evento)
+    body: JSON.stringify({ evento })  
   });
 
   if (!eventoRes.ok) {
@@ -242,18 +243,28 @@ export async function obtenerInscriptos(idEvento: number): Promise<Inscripto[]> 
 
 // 8. Inscribir un usuario a un evento
 export const inscribirUsuario = async (payload: inscripcionEventoRequest) => {
+  const token = getAuthToken();
+  console.log('🔵 Payload enviado:', payload);
+  console.log('🔑 Token:', token ? 'Token presente' : 'Sin token');
+  
   const response = await fetch(`${BASE_API_URL}/eventos/inscripcion`, { //aca fetch
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     credentials: 'include',
     body: JSON.stringify(payload),
   });
-  console.log('payload',payload)
 
-  if (!response.ok) throw new Error(`Error al realizar inscripcion: ${response.statusText}`)
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: response.statusText }));
+    console.error('❌ Error del backend:', errorData);
+    throw new Error(errorData.message || `Error al realizar inscripcion: ${response.statusText}`);
+  }
 
-  const data = await response.json()
-
+  const data = await response.json();
+  console.log('✅ Respuesta exitosa:', data);
   return data;
 };
 

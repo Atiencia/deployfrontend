@@ -40,7 +40,7 @@ export function EventComponent({ event }: eventComponentProps) {
             {event.descripcion}
           </div>
           <div className="text-sm text-gray-500 mb-2">
-            <strong>Grupo:</strong> {event.nombre_grupo || "Sin grupo asignado"} |{" "}
+            <strong>Grupo:</strong> {event.nombre_grupo || (event.categoria === "salida" ? "Sin grupo asignado" : "Instituto Misionero")} |{" "}
             <strong>Fecha:</strong>{" "}
             {new Date(event.fecha).toLocaleDateString("es-AR")} |{" "}
             <strong>Lugar:</strong> {event.lugar}
@@ -76,7 +76,7 @@ export function EventComponent({ event }: eventComponentProps) {
             {event.descripcion}
           </div>
           <div className="text-sm text-gray-500">
-            <strong>Grupo:</strong> {event.nombre_grupo || "Sin grupo asignado"} |{" "}
+            <strong>Grupo:</strong> {event.nombre_grupo || (event.categoria === "salida" ? "Sin grupo asignado" : "Instituto Misionero")} |{" "}
             <strong>Fecha:</strong>{" "}
             {new Date(event.fecha).toLocaleDateString("es-AR")} |{" "}
             <strong>Lugar:</strong> {event.lugar}
@@ -109,7 +109,7 @@ export function EventComponent({ event }: eventComponentProps) {
             {event.descripcion}
           </div>
           <div className="text-sm text-gray-500">
-            <strong>Grupo:</strong> {event.nombre_grupo || "Sin grupo asignado"} |{" "}
+            <strong>Grupo:</strong> {event.nombre_grupo || (event.categoria === "salida" ? "Sin grupo asignado" : "Instituto Misionero")} |{" "}
             <strong>Fecha:</strong>{" "}
             {new Date(event.fecha).toLocaleDateString("es-AR")} |{" "}
             <strong>Lugar:</strong> {event.lugar}
@@ -159,7 +159,7 @@ export function EventComponent({ event }: eventComponentProps) {
               <svg className="w-4 h-4 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
-              <span className="font-medium">Grupo:</span>&nbsp;{event.nombre_grupo || "Sin grupo"}
+              <span className="font-medium">Grupo:</span>&nbsp;{event.nombre_grupo || (event.categoria === "salida" ? "Sin grupo" : "Instituto Misionero")}
             </div>
             <div className="flex items-center text-sm text-gray-600">
               <svg className="w-4 h-4 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -351,7 +351,10 @@ export default function EventosComponent() {
   useEffect(() => {
     // Para secretaria grupal (rol 5), usar solo los eventos de su grupo
     if (rolUsuario === 5 && eventosGrupo?.eventos) {
-      setEventos(eventosGrupo.eventos);
+      // El endpoint de grupo puede devolver eventos en distintos estados;
+      // acá nos quedamos solo con los vigentes para la lista principal.
+      const soloVigentes = eventosGrupo.eventos.filter((e: evento) => e.estado === "vigente");
+      setEventos(soloVigentes);
     } 
     // Para otros roles, usar todos los eventos vigentes
     else if (rolUsuario !== 5 && eventosVigentes) {
