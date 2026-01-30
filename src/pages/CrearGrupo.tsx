@@ -1,14 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import { NoAutorizado } from "./NoAutorizado";
 import { LoadingButton } from "../components/LoadingButton";
 import { useAtomValue } from "jotai";
 import { userRolAtom } from "../store/jotaiStore";
 import { useCrearGrupo } from "../queries/gruposQueries";
+import { LoadingSpinner } from "../components/LoadingComponents";
 
 export default function CrearGrupo() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const [form, setForm] = useState({
     nombre: "",
@@ -23,6 +25,20 @@ export default function CrearGrupo() {
   const rolUsuario = useAtomValue(userRolAtom);
 
   const { mutate: crearGrupo, isPending: loading, error } = useCrearGrupo();
+
+  useEffect(() => {
+    // Esperar a que el atom se sincronice con localStorage
+    const timer = setTimeout(() => setIsInitialized(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <LoadingSpinner size="lg" message="Cargando..." />
+      </div>
+    );
+  }
 
   if (![1, 2, 4, 5].includes(rolUsuario)) {
     return <NoAutorizado />;

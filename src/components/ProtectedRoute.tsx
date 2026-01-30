@@ -1,9 +1,10 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { userRolAtom } from "../store/jotaiStore";
 import { NoAutorizado } from "../pages/NoAutorizado";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { clearAuthData } from "../utils/authUtils";
 import { useNavigate } from "react-router-dom";
+import { LoadingSpinner } from "./LoadingComponents";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export const ProtectedRoute = ({
   const rolUsuario = useAtomValue(userRolAtom);
   const setUserRol = useSetAtom(userRolAtom);
   const navigate = useNavigate();
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     // Verificar consistencia entre localStorage y Jotai
@@ -34,7 +36,19 @@ export const ProtectedRoute = ({
         navigate('/login', { replace: true });
       }
     }
+    
+    // Marcar como inicializado después de verificar
+    setIsInitialized(true);
   }, [requireAuth, navigate, setUserRol]);
+
+  // Mostrar loading mientras se inicializa
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <LoadingSpinner size="lg" message="Verificando autenticación..." />
+      </div>
+    );
+  }
 
   // Si requiere autenticación y no hay rol (usuario no autenticado)
   if (requireAuth && (!rolUsuario || rolUsuario === 0)) {

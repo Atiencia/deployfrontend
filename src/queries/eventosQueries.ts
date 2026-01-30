@@ -178,7 +178,6 @@ export function useEliminarInscripto() {
 
 export function useInscribirUsuario() {
     const qc = useQueryClient();
-    const navigate = useNavigate();
 
     return useMutation({
         mutationFn: inscribirUsuario,

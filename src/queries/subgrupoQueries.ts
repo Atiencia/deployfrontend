@@ -75,7 +75,6 @@ export function useSubgruposPorEvento(eventoId: number) {
 
 export function useInscribirUsuarioSubevento(eventoId: number) {
     const qc = useQueryClient();
-    const navigate = useNavigate();
 
     return useMutation({
         mutationFn: inscribirUsuarioEnSubgrupo,

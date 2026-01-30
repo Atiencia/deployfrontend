@@ -100,6 +100,7 @@ export default function EventsRegistration() {
 
   const [estaInscrito, setEstaInscrito] = useState<boolean>(false);
   const [inscripcionEnProceso, setInscripcionEnProceso] = useState<boolean>(false);
+  const [isRolInitialized, setIsRolInitialized] = useState(false);
 
 
   const seraInscritoComoSuplente = useMemo(() => {
@@ -180,6 +181,12 @@ export default function EventsRegistration() {
     }
   }, []);
 
+  // Esperar a que el rol se sincronice con localStorage
+  useEffect(() => {
+    const timer = setTimeout(() => setIsRolInitialized(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
 
   //mantener actualizados los datos de detalles
   useEffect(() => {
@@ -202,16 +209,16 @@ export default function EventsRegistration() {
 
 
   // Verificación de autorización - DESPUÉS de todos los hooks
-  if (rolUsuario !== null && rolUsuario > 6) {
-    return <NoAutorizado />;
-  }
-
-  // Loading y error states
-  if (loadingDetalles || loadingEvent || loadingEstadisticas) return (
+  if (!isRolInitialized || loadingDetalles || loadingEvent || loadingEstadisticas) return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <LoadingSpinner size="lg" message="Cargando detalles del evento..." />
     </div>
   );
+
+  if (rolUsuario !== null && rolUsuario > 6) {
+    return <NoAutorizado />;
+  }
+
   if (errorDetalles || errorEvent || errorEstadisticas) return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <ErrorState
@@ -236,7 +243,6 @@ export default function EventsRegistration() {
   const fechaActual = new Date();
   const fechaLimite = event ? new Date(event.fecha_limite_inscripcion) : null;
 
-  if (fechaLimite && fechaActual > fechaLimite) toast.error('La fecha límite de inscripción ya pasó.');
   const fechaLimiteVencida = fechaLimite ? fechaActual > fechaLimite : false;
   const sinCuposTitulares = (event.cupos_disponibles ?? 0) === 0;
   const haySuplentesDisponibles = (event.suplentes_disponibles ?? 0) > 0;

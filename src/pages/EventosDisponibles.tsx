@@ -8,14 +8,21 @@ import { esFechaInscripcionVencida, formatearFecha } from "../utils/fechaUtils";
 import { useAtomValue } from "jotai";
 import { userRolAtom } from "../store/jotaiStore";
 import { useEventosDisponibles } from "../queries/eventosQueries";
+import { useState, useEffect } from "react";
 
 export default function EventosDisponiblesPage() {
   const rolUsuario = useAtomValue(userRolAtom)
   const {data: eventos, isPending: loading, error} = useEventosDisponibles()
+  const [isInitialized, setIsInitialized] = useState(false);
 
+  useEffect(() => {
+    // Esperar a que el atom se sincronice con localStorage
+    const timer = setTimeout(() => setIsInitialized(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // Mostrar loading mientras se carga el rol o los eventos
-  if (loading && rolUsuario === null) {
+  // Mostrar loading mientras se inicializa el rol o se cargan los eventos
+  if (!isInitialized || loading) {
     return (
       <div className="min-h-screen flex bg-gray-100">
         <Sidebar />
