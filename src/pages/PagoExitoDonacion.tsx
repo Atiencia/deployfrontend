@@ -19,9 +19,10 @@ export default function PagoExitoDonacion() {
 
     console.log('Parámetros de Mercado Pago:', { payment_id, status, external_reference, merchant_order_id });
 
-    // Si hay un payment_id, procesar el pago
-    if (payment_id && status === 'approved') {
-      procesarPago(payment_id, external_reference, merchant_order_id);
+      // Si hay un payment_id y el pago está aprobado, mostrar éxito directamente
+      if (payment_id && status === 'approved') {
+        toast.success('¡Donación registrada exitosamente!');
+        setIsProcessing(false);
     } else if (status && status !== 'approved') {
       console.error('El pago no fue aprobado:', status);
       toast.error('El pago no fue aprobado');
@@ -32,36 +33,6 @@ export default function PagoExitoDonacion() {
       setIsProcessing(false);
     }
   }, [searchParams]);
-
-  const procesarPago = async (payment_id: string, external_reference: string | null, merchant_order_id: string | null) => {
-    try {
-      const response = await fetch(`${API_URL}/donaciones/procesar-pago`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          payment_id,
-          external_reference,
-          merchant_order_id
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al procesar el pago');
-      }
-
-      const data = await response.json();
-      console.log('Donación registrada:', data);
-      toast.success('¡Donación registrada exitosamente!');
-      setIsProcessing(false);
-    } catch (error) {
-      console.error('Error al procesar el pago:', error);
-      toast.error('Error al registrar la donación');
-      setIsProcessing(false);
-    }
-  };
 
   useEffect(() => {
     if (!isProcessing) {

@@ -49,7 +49,11 @@ function DonacionItem({ donacion }: DonacionItemProps) {
                 <div className="flex justify-between items-start">
                     <div>
                         <p className="text-xs text-gray-500">ID: {donacion.id_donacion}</p>
-                        <p className="font-semibold text-base">{donacion.nombre} {donacion.apellido}</p>
+                                                <p className="font-semibold text-base">
+                                                    {donacion.nombre || donacion.apellido
+                                                        ? `${donacion.nombre || ''} ${donacion.apellido || ''}`.trim()
+                                                        : 'Anónimo'}
+                                                </p>
                         {donacion.nombre_grupo && (
                             <p className="text-xs text-blue-600 mt-1">Grupo: {donacion.nombre_grupo}</p>
                         )}
@@ -77,7 +81,11 @@ function DonacionItem({ donacion }: DonacionItemProps) {
             {/* Vista desktop - Tabla */}
             <div className="hidden md:grid grid-cols-6 gap-4 p-4 hover:bg-gray-50 transition-colors rounded-lg text-sm border-b border-gray-100">
                 <p className="font-medium">{donacion.id_donacion}</p>
-                <p className="truncate">{donacion.nombre} {donacion.apellido}</p>
+                                <p className="truncate">
+                                    {donacion.nombre || donacion.apellido
+                                        ? `${donacion.nombre || ''} ${donacion.apellido || ''}`.trim()
+                                        : 'Anónimo'}
+                                </p>
                 <p className="truncate text-blue-600">{donacion.nombre_grupo || '-'}</p>
                 <p className="font-semibold text-green-600">${donacion.monto}</p>
                 <p>{new Date(donacion.fecha_donacion).toLocaleDateString('es-AR')}</p>
