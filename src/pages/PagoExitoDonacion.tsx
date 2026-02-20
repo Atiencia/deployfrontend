@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import { API_URL } from '../config/api';
 import { toast } from 'sonner';
 
 export default function PagoExitoDonacion() {
