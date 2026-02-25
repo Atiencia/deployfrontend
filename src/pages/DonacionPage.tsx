@@ -15,6 +15,7 @@ export default function DonacionPage() {
   const [monto, setMonto] = useState('');
   const [descripcion, setDescripcion] = useState('Donación voluntaria');
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
   // const [donationComplete, setDonationComplete] = useState(false);
   const [email, setEmail] = useState('');
   const [nombre, setNombre] = useState('');
@@ -76,6 +77,13 @@ export default function DonacionPage() {
 
     if (!email || !nombre) {
       toast.error('Por favor ingrese su email y nombre');
+      return;
+    }
+
+    // Validar formato de correo
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error('Por favor ingrese un correo electrónico válido');
       return;
     }
 
@@ -256,11 +264,18 @@ export default function DonacionPage() {
               </div>
 
               <div className="mt-6 pt-6 border-t border-gray-200 text-center space-y-3">
-                <p className="text-sm text-gray-500">
-                  Una vez completado el pago, la donación será registrada.
-                </p>
+                {paymentCompleted ? (
+                  <p className="text-green-700 font-semibold">Pago completado y donación registrada.</p>
+                ) : (
+                  <p className="text-sm text-gray-500">
+                    Una vez completado el pago, la donación será registrada.
+                  </p>
+                )}
                 <button
-                  onClick={() => setPreferenceId(null)}
+                  onClick={() => {
+                    setPreferenceId(null);
+                    setPaymentCompleted(false);
+                  }}
                   className="text-sm text-red-600 hover:text-red-800 font-medium underline"
                 >
                   Cancelar y cambiar monto
