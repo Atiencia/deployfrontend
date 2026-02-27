@@ -187,7 +187,7 @@ export default function DonacionPage() {
                   ))}
                 </select>
                 <p className="text-sm text-gray-500 mt-1">
-                  Si seleccionas un grupo, tu donación será destinada específicamente a ese grupo.
+                  Si seleccionas un grupo, tu donación será destinada específicamente a ese grupo, caso contrario, será destinado al Instituto Misionero
                 </p>
               </div>
 

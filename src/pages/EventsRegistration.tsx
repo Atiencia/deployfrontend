@@ -874,13 +874,13 @@ export default function EventsRegistration() {
                     <div style={{ width: '300px' }}>
                       <Wallet
                         initialization={{ preferenceId: paymentState.preferenceId }}
-                        onPaymentSuccess={() => {
-                          setPaymentState(prev => ({ ...prev, completed: true }));
-                          toast.success('¡Pago de evento realizado con éxito! Ahora puedes inscribirte.');
-                        }}
-                        onError={() => {
-                          toast.error('Hubo un problema al procesar el pago del evento. Intenta nuevamente.');
-                        }}
+                        // onPaymentSuccess={() => {
+                        //   setPaymentState(prev => ({ ...prev, completed: true }));
+                        //   toast.success('¡Pago de evento realizado con éxito! Ahora puedes inscribirte.');
+                        // }}
+                        // onError={() => {
+                        //   toast.error('Hubo un problema al procesar el pago del evento. Intenta nuevamente.');
+                        // }}
                       />
                     </div>
                     <p className="text-sm text-gray-600">

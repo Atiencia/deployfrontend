@@ -42,6 +42,10 @@ function DonacionItem({ donacion }: DonacionItemProps) {
         }
     };
 
+    const nombreGrupoMostrar = donacion.nombre_grupo && donacion.nombre_grupo.trim() !== ''
+        ? donacion.nombre_grupo
+        : 'Instituto Misionero';
+
     return (
         <>
             {/* Vista móvil - Tarjeta */}
@@ -49,14 +53,12 @@ function DonacionItem({ donacion }: DonacionItemProps) {
                 <div className="flex justify-between items-start">
                     <div>
                         <p className="text-xs text-gray-500">ID: {donacion.id_donacion}</p>
-                                                <p className="font-semibold text-base">
-                                                    {donacion.nombre || donacion.apellido
-                                                        ? `${donacion.nombre || ''} ${donacion.apellido || ''}`.trim()
-                                                        : 'Anónimo'}
-                                                </p>
-                        {donacion.nombre_grupo && (
-                            <p className="text-xs text-blue-600 mt-1">Grupo: {donacion.nombre_grupo}</p>
-                        )}
+                        <p className="font-semibold text-base">
+                            {donacion.nombre || donacion.apellido
+                                ? `${donacion.nombre || ''} ${donacion.apellido || ''}`.trim()
+                                : 'Anónimo'}
+                        </p>
+                        <p className="text-xs text-blue-600 mt-1">Grupo: {nombreGrupoMostrar}</p>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
                         donacion.estado === 'aprobado' ? 'bg-green-100 text-green-700' :
@@ -86,7 +88,7 @@ function DonacionItem({ donacion }: DonacionItemProps) {
                                         ? `${donacion.nombre || ''} ${donacion.apellido || ''}`.trim()
                                         : 'Anónimo'}
                                 </p>
-                <p className="truncate text-blue-600">{donacion.nombre_grupo || '-'}</p>
+                <p className="truncate text-blue-600">{nombreGrupoMostrar}</p>
                 <p className="font-semibold text-green-600">${donacion.monto}</p>
                 <p>{new Date(donacion.fecha_donacion).toLocaleDateString('es-AR')}</p>
                 <p className={`capitalize font-medium ${getEstadoColor(donacion.estado)}`}>
